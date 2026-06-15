@@ -1,0 +1,26 @@
+# Data
+data/raw/
+data/processed/
+
+# Models (pickle files)
+models/
+*.pkl
+
+# Reports & logs
+reports/
+logs/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+
+# Environment
+.env
+.venv/
+venv/
+
+# IDE
+.vscode/
+.idea/
