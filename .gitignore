@@ -4,7 +4,7 @@ data/raw/*
 data/processed/
 
 # Models (pickle files)
-models/
+/models/
 *.pkl
 
 # Reports & logs
