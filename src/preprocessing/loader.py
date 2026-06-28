@@ -199,53 +199,57 @@ def load_data(filepath: Path = None, chunksize: int = None, max_rows: int = None
 
     chunksize = chunksize or CHUNKSIZE
 
-    # If filepath is a directory, pick the training CSV (it has multiple
-    # classes from a single source, making classification realistic).
+    concat_rest = []
+
+    # If filepath is a directory, concatenate ALL data files for maximum
+    # class diversity (especially important for the CIC_IoMT_2024 dataset
+    # where train + test files provide balanced attack/benign coverage).
     if filepath.is_dir():
         parquet_files = list(filepath.rglob("*.parquet"))
         csv_files = list(filepath.rglob("*.csv")) + list(filepath.rglob("*.txt"))
-        # Prefer parquet inside the directory too, then training CSV
         if parquet_files:
-            train_files = [f for f in parquet_files if "train" in f.stem.lower()]
-            filepath = train_files[0] if train_files else parquet_files[0]
+            filepath = parquet_files[0]
+            concat_rest = parquet_files[1:]
         else:
-            train_files = [f for f in csv_files if "train" in f.stem.lower()]
-            filepath = train_files[0] if train_files else csv_files[0]
-        print(f"[loader] Using training file: {filepath.name}")
+            filepath = csv_files[0]
+            concat_rest = csv_files[1:]
 
     print(f"[loader] Loading dataset: {filepath}  ({filepath.stat().st_size / 1e6:.1f} MB)")
 
     # ---- Parquet path (fast, memory-efficient) ----
     if filepath.suffix.lower() == ".parquet":
-        import pyarrow.parquet as pq
-        pf = pq.ParquetFile(filepath)
-        total_rows = pf.metadata.num_rows
-        # Log file identity for cross-environment debugging
-        import hashlib as _hl
-        _buf = open(filepath, "rb").read(1 << 20)  # first 1 MB
-        _h = _hl.md5(_buf).hexdigest()
-        print(f"[loader]  Parquet rows={total_rows:,}  row_groups={pf.metadata.num_row_groups}  md5(1MB)={_h}")
-        # Read a limited pool (10x max_rows) instead of the full file to save
-        # memory on constrained hosts (Railway has only 512 MB RAM).
-        if max_rows is not None and total_rows > max_rows:
-            n_row_groups = pf.metadata.num_row_groups
-            rows_per_group = max(1, total_rows // n_row_groups)
-            # Keep 2× max_rows as pool (fits Railway's 512 MB RAM).
-            target_pool = min(total_rows, max_rows * 2)
-            groups_needed = max(1, target_pool // rows_per_group)
-            if groups_needed < n_row_groups:
-                import random as _random
-                _random.seed(RANDOM_STATE)
-                groups = sorted(_random.sample(range(n_row_groups), groups_needed))
-                table = pf.read_row_groups(groups)
-                print(f"[loader]  Read {groups_needed}/{n_row_groups} row groups ({len(table)} rows) from Parquet")
-            else:
-                table = pf.read()
-                print(f"[loader]  Read all {n_row_groups} row groups ({len(table)} rows) from Parquet")
-            df = table.to_pandas()
-        else:
-            df = pd.read_parquet(filepath, engine="pyarrow")
+        def _read_one_parquet(path, max_rows):
+            import pyarrow.parquet as _pq
+            import hashlib as _hl
+            pf = _pq.ParquetFile(path)
+            total_rows = pf.metadata.num_rows
+            _buf = open(path, "rb").read(1 << 20)
+            _h = _hl.md5(_buf).hexdigest()
+            print(f"[loader]  Parquet rows={total_rows:,}  row_groups={pf.metadata.num_row_groups}  md5(1MB)={_h}")
+            if max_rows is not None and total_rows > max_rows:
+                n_row_groups = pf.metadata.num_row_groups
+                rows_per_group = max(1, total_rows // n_row_groups)
+                target_pool = min(total_rows, max_rows * 2)
+                groups_needed = max(1, target_pool // rows_per_group)
+                if groups_needed < n_row_groups:
+                    import random as _random
+                    _random.seed(RANDOM_STATE)
+                    groups = sorted(_random.sample(range(n_row_groups), groups_needed))
+                    table = pf.read_row_groups(groups)
+                    print(f"[loader]  Read {groups_needed}/{n_row_groups} row groups ({len(table)} rows)")
+                else:
+                    table = pf.read()
+                    print(f"[loader]  Read all {n_row_groups} row groups ({len(table)} rows)")
+                return table.to_pandas()
+            df = pd.read_parquet(path, engine="pyarrow")
             print(f"[loader]  Loaded {len(df)} rows from Parquet")
+            return df
+
+        df = _read_one_parquet(filepath, max_rows)
+        for extra in concat_rest:
+            extra_df = _read_one_parquet(extra, max_rows)
+            print(f"[loader]  Concatenating {extra.name} ({len(extra_df)} rows)")
+            df = pd.concat([df, extra_df], ignore_index=True)
         # Shuffle and sample to max_rows if needed
         if max_rows is not None:
             if len(df) > max_rows:

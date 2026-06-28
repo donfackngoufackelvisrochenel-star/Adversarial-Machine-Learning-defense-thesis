@@ -243,17 +243,40 @@ with st.sidebar:
         files = []
         for p in patterns:
             files.extend(DATA_RAW_DIR.glob(p))
-        return sorted(f.name for f in files)
+        names = sorted(f.name for f in files)
+        # Group CIC_IoMT_2024 parquets into a single "CIC_IoMT_2024" entry
+        # so the dropdown matches the local experience (select the dataset
+        # by name, not an individual train/test file).
+        has_train = any("train" in n.lower() for n in names)
+        has_test  = any("test"  in n.lower() for n in names)
+        if has_train and has_test:
+            train = next(n for n in names if "train" in n.lower())
+            prefix = train.split("_")[0] + "_" + train.split("_")[1]  # "CIC_IoMT_2024"
+            names = [n for n in names if prefix not in n or not ("train" in n.lower() or "test" in n.lower())]
+            names.insert(0, prefix)
+        return names
+
+    @st.cache_data
+    def _dataset_file_map():
+        """Return {display_name: actual_filepath} for all datasets."""
+        mapping = {}
+        for p in DATA_RAW_DIR.glob("*.parquet"):
+            mapping[p.name] = p
+        for p in list(DATA_RAW_DIR.glob("*.csv")) + list(DATA_RAW_DIR.glob("*.txt")) + list(DATA_RAW_DIR.glob("*.zip")) + list(DATA_RAW_DIR.glob("*.gz")):
+            mapping[p.name] = p
+        # Combined entry points to the raw directory so load_data will
+        # enter the directory branch and concatenate all parquet files.
+        mapping["CIC_IoMT_2024"] = DATA_RAW_DIR
+        return mapping
 
     dataset_files = list_datasets()
     if not dataset_files:
         st.warning("No datasets found in `data/raw/`.", icon="⚠️")
         st.stop()
 
-    # Default to the first training file if present
     default_idx = 0
     for i, f in enumerate(dataset_files):
-        if "train" in f.lower():
+        if "CIC_IoMT_2024" in f:
             default_idx = i
             break
     selected_file = st.selectbox("Dataset file", dataset_files, index=default_idx)
@@ -317,8 +340,11 @@ if load_btn or "df" not in st.session_state:
         # Slow path: load and process raw CSV
         with st.spinner("Loading dataset..."):
             actual_max_rows = int(max_rows_input) if int(max_rows_input) != 0 else None
-            data_path = DATA_RAW_DIR / selected_file
-            print(f"[dashboard] Loading: {data_path}  (size={data_path.stat().st_size:,} bytes)")
+            file_map = _dataset_file_map()
+            resolved = file_map.get(selected_file, DATA_RAW_DIR / selected_file)
+            data_path = resolved if isinstance(resolved, Path) else DATA_RAW_DIR / selected_file
+            size_str = f"{data_path.stat().st_size:,} bytes" if data_path.is_file() else "directory"
+            print(f"[dashboard] Selected: {selected_file} -> Loading: {data_path}  (size={size_str})")
             df = load_data(data_path, chunksize=int(chunksize_input), max_rows=actual_max_rows)
             df = clean_data(df)
             st.session_state["df"] = df
