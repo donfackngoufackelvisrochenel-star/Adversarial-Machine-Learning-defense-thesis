@@ -244,7 +244,7 @@ with st.sidebar:
         for p in patterns:
             files.extend(DATA_RAW_DIR.glob(p))
         names = sorted(f.name for f in files)
-        # Group CIC_IoMT_2024 parquets into a single "CIC_IoMT_2024" entry
+        # Group CIC_IoMT_2024 parquets into a single "CIC_IoMT_2024.zip" entry
         # so the dropdown matches the local experience (select the dataset
         # by name, not an individual train/test file).
         has_train = any("train" in n.lower() for n in names)
@@ -252,8 +252,9 @@ with st.sidebar:
         if has_train and has_test:
             train = next(n for n in names if "train" in n.lower())
             prefix = "_".join(train.split("_")[:3])  # "CIC_IoMT_2024"
+            group_name = f"{prefix}.zip"
             names = [n for n in names if prefix not in n or not ("train" in n.lower() or "test" in n.lower())]
-            names.insert(0, prefix)
+            names.insert(0, group_name)
         return names
 
     @st.cache_data
@@ -264,15 +265,18 @@ with st.sidebar:
             mapping[p.name] = p
         for p in list(DATA_RAW_DIR.glob("*.csv")) + list(DATA_RAW_DIR.glob("*.txt")) + list(DATA_RAW_DIR.glob("*.zip")) + list(DATA_RAW_DIR.glob("*.gz")):
             mapping[p.name] = p
-        # Combined entry for grouped datasets (e.g. CIC_IoMT_2024).
-        # Use same prefix logic as list_datasets().
+        # Combined entry for grouped datasets (e.g. CIC_IoMT_2024.zip).
+        # Only create when there is no actual .zip file with that name
+        # (otherwise the real zip from the loop above takes precedence).
         parquet_names = sorted(p.name for p in DATA_RAW_DIR.glob("*.parquet"))
         has_train = any("train" in n.lower() for n in parquet_names)
         has_test  = any("test"  in n.lower() for n in parquet_names)
         if has_train and has_test:
             train = next(n for n in parquet_names if "train" in n.lower())
             prefix = "_".join(train.split("_")[:3])
-            mapping[prefix] = DATA_RAW_DIR
+            group_name = f"{prefix}.zip"
+            if group_name not in mapping:
+                mapping[group_name] = DATA_RAW_DIR
         return mapping
 
     dataset_files = list_datasets()
