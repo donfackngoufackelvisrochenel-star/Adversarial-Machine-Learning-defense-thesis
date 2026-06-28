@@ -287,7 +287,11 @@ def clean_data(df: pd.DataFrame) -> pd.DataFrame:
     for c in num_cols:
         if df[c].dtype.name == "float16":
             df[c] = df[c].astype("float32")
-    str_cols = df.select_dtypes(include=["object", "string", "category"]).columns
+    cat_cols = df.select_dtypes(include=["category"]).columns
+    if len(cat_cols):
+        for c in cat_cols:
+            df[c] = df[c].cat.add_categories("").fillna("")
+    str_cols = df.select_dtypes(include=["object", "string"]).columns
     if len(num_cols):
         cols_with_nan = [c for c in num_cols if df[c].isna().any()]
         if cols_with_nan:
