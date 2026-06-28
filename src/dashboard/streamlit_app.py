@@ -317,7 +317,9 @@ if load_btn or "df" not in st.session_state:
         # Slow path: load and process raw CSV
         with st.spinner("Loading dataset..."):
             actual_max_rows = int(max_rows_input) if int(max_rows_input) != 0 else None
-            df = load_data(DATA_RAW_DIR / selected_file, chunksize=int(chunksize_input), max_rows=actual_max_rows)
+            data_path = DATA_RAW_DIR / selected_file
+            print(f"[dashboard] Loading: {data_path}  (size={data_path.stat().st_size:,} bytes)")
+            df = load_data(data_path, chunksize=int(chunksize_input), max_rows=actual_max_rows)
             df = clean_data(df)
             st.session_state["df"] = df
             st.session_state["data_loaded"] = True

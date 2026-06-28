@@ -213,13 +213,14 @@ def load_data(filepath: Path = None, chunksize: int = None, max_rows: int = None
             filepath = train_files[0] if train_files else csv_files[0]
         print(f"[loader] Using training file: {filepath.name}")
 
-    print(f"[loader] Loading dataset: {filepath}")
+    print(f"[loader] Loading dataset: {filepath}  ({filepath.stat().st_size / 1e6:.1f} MB)")
 
     # ---- Parquet path (fast, memory-efficient) ----
     if filepath.suffix.lower() == ".parquet":
         import pyarrow.parquet as pq
         pf = pq.ParquetFile(filepath)
         total_rows = pf.metadata.num_rows
+        print(f"[loader]  Parquet rows={total_rows:,}  row_groups={pf.metadata.num_row_groups}")
         # Read a limited pool (10x max_rows) instead of the full file to save
         # memory on constrained hosts (Railway has only 512 MB RAM).
         if max_rows is not None and total_rows > max_rows:

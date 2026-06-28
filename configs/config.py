@@ -92,15 +92,15 @@ CHUNKSIZE = 50000
 MODEL_PARAMS = {
     # Random Forest — ensemble of decision trees with bagging
     "random_forest": {
-        "n_estimators": 30,         # Reduced for fast demo (default 100)
-        "max_depth": 8,              # Maximum tree depth (None = unlimited)
+        "n_estimators": 10,         # Reduced for fast demo on Railway (default 100)
+        "max_depth": 6,              # Shallow → fast training
         "min_samples_split": 10,     # Minimum samples required to split a node
         "random_state": RANDOM_STATE,
         "n_jobs": -1,                # Use all CPU cores
     },
     # XGBoost — gradient-boosted decision trees
     "xgboost": {
-        "n_estimators": 30,          # Reduced for fast demo (default 100)
+        "n_estimators": 15,          # Reduced for fast demo on Railway (default 100)
         "max_depth": 4,              # Shallow trees → faster training
         "learning_rate": 0.1,
         "random_state": RANDOM_STATE,
@@ -108,7 +108,7 @@ MODEL_PARAMS = {
     },
     # LightGBM — efficient gradient boosting with leaf-wise tree growth
     "lightgbm": {
-        "n_estimators": 30,          # Reduced for fast demo (default 100)
+        "n_estimators": 15,          # Reduced for fast demo on Railway (default 100)
         "max_depth": 4,
         "learning_rate": 0.1,
         "random_state": RANDOM_STATE,

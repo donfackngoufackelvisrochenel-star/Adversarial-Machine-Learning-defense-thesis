@@ -118,6 +118,10 @@ def train_all_models(
     """
     Train every model in the registry and save each to disk.
 
+    Each model is trained independently so a single failure (e.g. a
+    missing system library for LightGBM) does not prevent the others
+    from being available in the dashboard.
+
     Args:
         X_train, y_train: Training data.
         X_val, y_val: Optional validation data.
@@ -129,7 +133,10 @@ def train_all_models(
     models = {}
     for name in MODEL_REGISTRY:
         print(f"\n{'='*40}\nTraining {name}...\n{'='*40}")
-        model = train_model(name, X_train, y_train, X_val, y_val)
-        models[name] = model
-        save_model(model, name, "clean")
+        try:
+            model = train_model(name, X_train, y_train, X_val, y_val)
+            models[name] = model
+            save_model(model, name, "clean")
+        except Exception as exc:
+            print(f"[trainer] {name} FAILED: {exc}")
     return models
