@@ -205,7 +205,7 @@ def _per_class_confusion(model, X, y):
     preds = model.predict(X)
     cm = confusion_matrix(y, preds)
     n = cm.shape[0]
-    classes = y.unique()
+    classes = np.unique(y)
     rows = []
     for i in range(n):
         tp = int(cm[i, i])
@@ -239,7 +239,7 @@ with st.sidebar:
 
     @st.cache_data
     def list_datasets():
-        patterns = ["*.csv", "*.txt", "*.zip", "*.gz"]
+        patterns = ["*.parquet", "*.csv", "*.txt", "*.zip", "*.gz"]
         files = []
         for p in patterns:
             files.extend(DATA_RAW_DIR.glob(p))
@@ -271,9 +271,8 @@ with st.sidebar:
     st.markdown("## ⚡ Attacks")
     attack_type = st.selectbox("Attack type", ["fgsm", "pgd"])
     eps = st.slider("Epsilon", 0.0, 1.0, 0.1, 0.05)
-    if attack_type == "pgd":
-        alpha = st.slider("Step size (alpha)", 0.001, 0.1, 0.01, 0.005)
-        num_iter = st.slider("Iterations", 1, 50, 10)
+    alpha = st.slider("Step size (alpha)", 0.001, 0.1, 0.01, 0.005)
+    num_iter = st.slider("Iterations", 1, 50, 10)
     attack_btn = st.button("💥 Run Attack", type="secondary", use_container_width=True)
 
     st.divider()
@@ -365,9 +364,9 @@ st.markdown('<div class="section-header">📊 Dataset Overview</div>', unsafe_al
 c1, c2, c3, c4, c5 = st.columns(5)
 c1.metric("Total Rows", f"{df.shape[0]:,}")
 c2.metric("Features", df.shape[1])
-c3.metric("Train", f"{st.session_state['X_train'].shape[0]:,}")
-c4.metric("Validation", f"{st.session_state['X_val'].shape[0]:,}")
-c5.metric("Test", f"{st.session_state['X_test'].shape[0]:,}")
+c3.metric("Train (72%)", f"{st.session_state['X_train'].shape[0]:,}")
+c4.metric("Validation (8%)", f"{st.session_state['X_val'].shape[0]:,}")
+c5.metric("Test (20%)", f"{st.session_state['X_test'].shape[0]:,}")
 
 with st.expander("🔍 Data Preview", expanded=False):
     st.dataframe(df.head(100), use_container_width=True)
@@ -983,7 +982,8 @@ else:
         df_live = pd.DataFrame(display)
         st.markdown("#### Latest Predictions")
         st.dataframe(
-            df_live.style
+            df_live.rename(columns={"conf": "Confidence"})
+            .style
             .map(lambda v: "color: green" if v == "✅" else "color: red", subset=["correct"])
             .format({"conf": "{:.2%}", "latency_ms": "{:.1f}ms"}),
             use_container_width=True,
