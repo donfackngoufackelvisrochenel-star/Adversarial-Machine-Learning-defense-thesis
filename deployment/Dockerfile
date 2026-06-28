@@ -10,4 +10,6 @@ COPY . .
 EXPOSE 8000
 EXPOSE 8501
 
+# Default: run full pipeline
+# Override via Railway / docker-compose for specific services
 CMD ["python", "scripts/run_pipeline.py"]
