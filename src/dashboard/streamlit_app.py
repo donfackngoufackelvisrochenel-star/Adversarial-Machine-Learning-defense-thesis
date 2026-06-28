@@ -251,7 +251,7 @@ with st.sidebar:
         has_test  = any("test"  in n.lower() for n in names)
         if has_train and has_test:
             train = next(n for n in names if "train" in n.lower())
-            prefix = train.split("_")[0] + "_" + train.split("_")[1]  # "CIC_IoMT_2024"
+            prefix = "_".join(train.split("_")[:3])  # "CIC_IoMT_2024"
             names = [n for n in names if prefix not in n or not ("train" in n.lower() or "test" in n.lower())]
             names.insert(0, prefix)
         return names
@@ -264,9 +264,15 @@ with st.sidebar:
             mapping[p.name] = p
         for p in list(DATA_RAW_DIR.glob("*.csv")) + list(DATA_RAW_DIR.glob("*.txt")) + list(DATA_RAW_DIR.glob("*.zip")) + list(DATA_RAW_DIR.glob("*.gz")):
             mapping[p.name] = p
-        # Combined entry points to the raw directory so load_data will
-        # enter the directory branch and concatenate all parquet files.
-        mapping["CIC_IoMT_2024"] = DATA_RAW_DIR
+        # Combined entry for grouped datasets (e.g. CIC_IoMT_2024).
+        # Use same prefix logic as list_datasets().
+        parquet_names = sorted(p.name for p in DATA_RAW_DIR.glob("*.parquet"))
+        has_train = any("train" in n.lower() for n in parquet_names)
+        has_test  = any("test"  in n.lower() for n in parquet_names)
+        if has_train and has_test:
+            train = next(n for n in parquet_names if "train" in n.lower())
+            prefix = "_".join(train.split("_")[:3])
+            mapping[prefix] = DATA_RAW_DIR
         return mapping
 
     dataset_files = list_datasets()
