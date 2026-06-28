@@ -12,4 +12,4 @@ EXPOSE 8501
 
 # Default: run Streamlit dashboard (for Railway deployment)
 # Override via docker-compose for local multi-service setup
-CMD streamlit run src/dashboard/streamlit_app.py --server.port ${PORT:-8501} --server.address 0.0.0.0
+CMD streamlit run src/dashboard/streamlit_app.py --server.port 8080 --server.address 0.0.0.0
