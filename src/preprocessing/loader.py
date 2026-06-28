@@ -217,8 +217,29 @@ def load_data(filepath: Path = None, chunksize: int = None, max_rows: int = None
 
     # ---- Parquet path (fast, memory-efficient) ----
     if filepath.suffix.lower() == ".parquet":
-        df = pd.read_parquet(filepath, engine="pyarrow")
-        print(f"[loader]  Loaded {len(df)} rows from Parquet")
+        import pyarrow.parquet as pq
+        pf = pq.ParquetFile(filepath)
+        total_rows = pf.metadata.num_rows
+        # Read a limited pool (10x max_rows) instead of the full file to save
+        # memory on constrained hosts (Railway has only 512 MB RAM).
+        if max_rows is not None and total_rows > max_rows:
+            n_row_groups = pf.metadata.num_row_groups
+            rows_per_group = max(1, total_rows // n_row_groups)
+            target_pool = min(total_rows, max_rows * 10)
+            groups_needed = max(1, target_pool // rows_per_group)
+            if groups_needed < n_row_groups:
+                import random as _random
+                _random.seed(RANDOM_STATE)
+                groups = sorted(_random.sample(range(n_row_groups), groups_needed))
+                table = pf.read_row_groups(groups)
+                print(f"[loader]  Read {groups_needed}/{n_row_groups} row groups ({len(table)} rows) from Parquet")
+            else:
+                table = pf.read()
+                print(f"[loader]  Read all {n_row_groups} row groups ({len(table)} rows) from Parquet")
+            df = table.to_pandas()
+        else:
+            df = pd.read_parquet(filepath, engine="pyarrow")
+            print(f"[loader]  Loaded {len(df)} rows from Parquet")
         # Shuffle and sample to max_rows if needed
         if max_rows is not None:
             if len(df) > max_rows:
