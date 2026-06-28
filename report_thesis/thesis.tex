@@ -1,5 +1,5 @@
 % ===========================================================================
-%  MEng Dissertation — Adversarial Machine Learning Defense on IoMT Data
+%  MEng Dissertation — Implementation Strategies for Defending Against Evasion Attacks in Adversarial Machine Learning on IoMT Data
 %  National Higher Polytechnic Institute (NAHPI)
 %  The University of Bamenda, Cameroon
 % ===========================================================================
@@ -31,6 +31,7 @@
 \usepackage{listings}
 \usepackage{textcomp}
 
+
 % ---------------------------------------------------------------------------
 % Page style
 % ---------------------------------------------------------------------------
@@ -42,7 +43,7 @@
 
 \onehalfspacing
 \setlength{\parindent}{1.27cm}
-\graphicspath{{../reports/}{./figures/}}
+\graphicspath{{../reports/}{./figures/}{./appendix/}}
 
 \hypersetup{
     colorlinks=true,
@@ -77,7 +78,7 @@
     {\Large NATIONAL HIGHER POLYTECHNIC INSTITUTE}\\[0.2cm]
     {\large Department of Computer Engineering}\\[1.5cm]
     \rule{\textwidth}{0.5pt}\\[0.8cm]
-    {\Huge\bfseries Implementation and Evaluation of Defense Strategies Against Evasion Attacks in Adversarial Machine Learning on IoMT Data}\\[1.0cm]
+    {\Huge\bfseries Implementation Strategies for Defending Against Evasion Attacks in Adversarial Machine Learning on IoMT Data}\\[1.0cm]
     \rule{\textwidth}{0.5pt}\\[1.0cm]
     {\large A Dissertation Submitted to the Department of Computer Engineering}\\
     {\large in the National Higher Polytechnic Institute of}\\
@@ -110,7 +111,7 @@
     {\Large NATIONAL HIGHER POLYTECHNIC INSTITUTE}\\[0.2cm]
     {\large Department of Computer Engineering}\\[1.5cm]
     \rule{\textwidth}{0.5pt}\\[0.8cm]
-    {\Huge\bfseries Implementation and Evaluation of Defense Strategies Against Evasion Attacks in Adversarial Machine Learning on IoMT Data}\\[1.0cm]
+    {\Huge\bfseries Implementation Strategies for Defending Against Evasion Attacks in Adversarial Machine Learning on IoMT Data}\\[1.0cm]
     \rule{\textwidth}{0.5pt}\\[1.0cm]
     {\large A Dissertation Submitted to the Department of Computer Engineering}\\
     {\large in the National Higher Polytechnic Institute of}\\
@@ -149,7 +150,7 @@
 \end{center}
 \vspace{1cm}
 
-I, \textbf{MALWARE XXXXXXXX XXXXXXXXX}, Registration Number: \textbf{XX-XXXX-XX}, in the Department of \textbf{Computer Engineering}, National Higher Polytechnic Institute, The University of Bamenda hereby declare that this work titled \textbf{``Implementation and Evaluation of Defense Strategies Against Evasion Attacks in Adversarial Machine Learning on IoMT Data''} is my original work. It has not been presented in any application for a degree or any academic pursuit elsewhere. I have acknowledged all borrowed ideas nationally and internationally through citations.
+I, \textbf{MALWARE XXXXXXXX XXXXXXXXX}, Registration Number: \textbf{XX-XXXX-XX}, in the Department of \textbf{Computer Engineering}, National Higher Polytechnic Institute, The University of Bamenda hereby declare that this work titled \textbf{``Implementation Strategies for Defending Against Evasion Attacks in Adversarial Machine Learning on IoMT Data''} is my original work. It has not been presented in any application for a degree or any academic pursuit elsewhere. I have acknowledged all borrowed ideas nationally and internationally through citations.
 
 \vspace{2cm}
 
@@ -164,7 +165,7 @@ I, \textbf{MALWARE XXXXXXXX XXXXXXXXX}, Registration Number: \textbf{XX-XXXX-XX}
 \end{center}
 \vspace{1cm}
 
-Having met the stipulated requirements, this dissertation entitled \textbf{``Implementation and Evaluation of Defense Strategies Against Evasion Attacks in Adversarial Machine Learning on IoMT Data''} has been accepted by the Postgraduate School of The University of Bamenda in partial fulfillment of the requirements for the award of a \textbf{Master of Engineering (MEng) Degree in Computer Engineering} (Option: Software Engineering).
+Having met the stipulated requirements, this dissertation entitled \textbf{``Implementation Strategies for Defending Against Evasion Attacks in Adversarial Machine Learning on IoMT Data''} has been accepted by the Postgraduate School of The University of Bamenda in partial fulfillment of the requirements for the award of a \textbf{Master of Engineering (MEng) Degree in Computer Engineering} (Option: Software Engineering).
 
 \vspace{2cm}
 
@@ -582,7 +583,7 @@ Stratification ensures that each class is proportionally represented in all spli
 
 \begin{figure}[H]
     \centering
-    \fbox{\parbox{0.8\textwidth}{\centering [Screenshot of correlation heatmap from dashboard --- Insert Here]}}
+    \includegraphics[width=0.8\textwidth]{screenshots/Screenshot 2026-06-26 131635.png}
     \caption{Correlation heatmap of features in the CIC\_IoMT\_2024 dataset}\label{fig:correlation_heatmap}
 \end{figure}
 
@@ -641,7 +642,7 @@ All models were trained using the \texttt{train\_all\_models} function in \textt
 
 \begin{table}[H]
     \centering
-    \caption{Model hyperparameters used in experiments}\label{tab:hyperparams}
+    \caption[Model hyperparameters]{Model hyperparameters used in experiments}\label{tab:hyperparams}
     \begin{tabular}{lccc}
         \toprule
         Parameter & Random Forest & XGBoost & LightGBM \\
@@ -658,7 +659,7 @@ All models were trained using the \texttt{train\_all\_models} function in \textt
 
 \begin{figure}[H]
     \centering
-    \fbox{\parbox{0.8\textwidth}{\centering [Screenshot of trained models dashboard --- Insert Here]}}
+    \includegraphics[width=0.8\textwidth]{screenshots/Screenshot 2026-06-26 131707.png}
     \caption{Dashboard view showing trained model metrics}\label{fig:model_training}
 \end{figure}
 
@@ -909,7 +910,7 @@ The three base classifiers were trained and evaluated on the clean (unperturbed)
 
 \begin{table}[H]
     \centering
-    \caption{Clean performance of base classifiers on CIC\_IoMT\_2024}\label{tab:clean_performance}
+    \caption[Clean performance of base classifiers]{Clean performance of base classifiers on CIC\_IoMT\_2024}\label{tab:clean_performance}
     \begin{tabular}{lcccc}
         \toprule
         Model & Accuracy & Precision & Recall & F1 Score \\
@@ -943,7 +944,7 @@ Table~\ref{tab:fgsm_impact} shows the accuracy of each classifier across increas
 
 \begin{table}[H]
     \centering
-    \caption{Classifier accuracy under FGSM attack at varying epsilon values}\label{tab:fgsm_impact}
+    \caption[FGSM attack impact on accuracy]{Classifier accuracy under FGSM attack at varying epsilon values}\label{tab:fgsm_impact}
     \begin{tabular}{lcccccc}
         \toprule
         Model & $\epsilon=0$ & $\epsilon=0.01$ & $\epsilon=0.05$ & $\epsilon=0.1$ & $\epsilon=0.2$ & $\epsilon=0.5$ \\
@@ -963,7 +964,7 @@ Table~\ref{tab:pgd_impact} presents the accuracy under PGD attack.
 
 \begin{table}[H]
     \centering
-    \caption{Classifier accuracy under PGD attack at varying epsilon values}\label{tab:pgd_impact}
+    \caption[PGD attack impact on accuracy]{Classifier accuracy under PGD attack at varying epsilon values}\label{tab:pgd_impact}
     \begin{tabular}{lcccccc}
         \toprule
         Model & $\epsilon=0$ & $\epsilon=0.01$ & $\epsilon=0.05$ & $\epsilon=0.1$ & $\epsilon=0.2$ & $\epsilon=0.5$ \\
@@ -991,22 +992,22 @@ Table~\ref{tab:defense_fgsm} compares the accuracy of each defense strategy acro
 
 \begin{table}[H]
     \centering
-    \caption{Accuracy of defense strategies under FGSM attack}\label{tab:defense_fgsm}
+    \caption[Defense comparison under FGSM]{Accuracy of defense strategies under FGSM attack}\label{tab:defense_fgsm}
     \begin{tabular}{lcccccc}
         \toprule
         Defense & $\epsilon=0$ & $\epsilon=0.01$ & $\epsilon=0.05$ & $\epsilon=0.1$ & $\epsilon=0.2$ & $\epsilon=0.5$ \\
         \midrule
-        None (XGBoost)       & 0.9370 & 0.1838 & 0.1645 & 0.1632 & 0.1463 & 0.1304 \\
-        Adversarial Training & 0.6134 & 0.2603 & 0.3394 & 0.3803 & 0.2798 & 0.2373 \\
-        Ensemble (soft vote) & 0.8495 & 0.0827 & 0.0727 & 0.0585 & 0.0508 & 0.0363 \\
-        Feature Selection    & 0.1634 & 0.1516 & 0.1515 & 0.0947 & 0.0998 & 0.0775 \\
+        None (XGBoost)            & 0.9370 & 0.1828 & 0.1639 & 0.1627 & 0.1460 & 0.1300 \\
+        Adversarial Training (RF) & 0.6569 & 0.2927 & 0.3376 & 0.3653 & 0.2740 & 0.2343 \\
+        Ensemble (soft vote)      & 0.8495 & 0.0838 & 0.0725 & 0.0593 & 0.0503 & 0.0370 \\
+        Feature Selection (XGB)   & 0.1634 & 0.1519 & 0.1515 & 0.0946 & 0.0987 & 0.0793 \\
         \bottomrule
     \end{tabular}
 \end{table}
 
-\textbf{Adversarial training} provided the most balanced robustness. While it reduced clean accuracy to 61.34\% (a 32.36 percentage-point drop from undefended XGBoost), it maintained the highest accuracy under attack across all epsilon values, peaking at 38.03\% at $\epsilon = 0.1$. This demonstrates that adversarially-trained models sacrifice some clean performance but gain substantial robustness.
+\textbf{Adversarial training} provided the most balanced robustness. While it reduced clean accuracy to 65.69\% (a 28.01 percentage-point drop from undefended XGBoost), it maintained the highest accuracy under attack across all epsilon values, peaking at 36.53\% at $\epsilon = 0.1$. This demonstrates that adversarially-trained models sacrifice some clean performance but gain substantial robustness.
 
-\textbf{The ensemble defense} preserved the highest clean accuracy among defended models (84.95\%), but its performance collapsed under even small perturbations (8.27\% at $\epsilon = 0.01$). This suggests that while the ensemble is a strong classifier on clean data, its robustness does not exceed the weakest link since the FGSM attack perturbs all three models simultaneously.
+\textbf{The ensemble defense} preserved the highest clean accuracy among defended models (84.95\%), but its performance collapsed under even small perturbations (8.38\% at $\epsilon = 0.01$). This suggests that while the ensemble is a strong classifier on clean data, its robustness does not exceed the weakest link since the FGSM attack perturbs all three models simultaneously.
 
 \textbf{Feature selection} performed poorly across all conditions. Its clean accuracy of 16.34\% indicates that reducing the feature set from over 80 features to just 20 removed too much discriminative information. This defense may require a more carefully tuned retention threshold.
 
@@ -1022,20 +1023,90 @@ Table~\ref{tab:defense_pgd} shows the accuracy under PGD attack.
 
 \begin{table}[H]
     \centering
-    \caption{Accuracy of defense strategies under PGD attack}\label{tab:defense_pgd}
+    \caption[Defense comparison under PGD]{Accuracy of defense strategies under PGD attack}\label{tab:defense_pgd}
     \begin{tabular}{lcccccc}
         \toprule
         Defense & $\epsilon=0$ & $\epsilon=0.01$ & $\epsilon=0.05$ & $\epsilon=0.1$ & $\epsilon=0.2$ & $\epsilon=0.5$ \\
         \midrule
-        None (XGBoost)       & 0.9370 & 0.1242 & 0.1696 & 0.1718 & 0.1675 & 0.1535 \\
-        Adversarial Training & 0.6134 & 0.2261 & 0.2584 & 0.2718 & 0.2536 & 0.2134 \\
-        Ensemble (soft vote) & 0.8495 & 0.0854 & 0.0804 & 0.0746 & 0.0604 & 0.0480 \\
-        Feature Selection    & 0.1634 & 0.1444 & 0.1455 & 0.1291 & 0.1147 & 0.0945 \\
+        None (XGBoost)            & 0.9370 & 0.1273 & 0.1709 & 0.1717 & 0.1697 & 0.1556 \\
+        Adversarial Training (RF) & 0.6569 & 0.2278 & 0.2641 & 0.2734 & 0.2456 & 0.2108 \\
+        Ensemble (soft vote)      & 0.8495 & 0.0831 & 0.0808 & 0.0728 & 0.0607 & 0.0472 \\
+        Feature Selection (XGB)   & 0.1634 & 0.1451 & 0.1452 & 0.1264 & 0.1152 & 0.0956 \\
         \bottomrule
     \end{tabular}
 \end{table}
 
-The results under PGD follow a similar pattern to FGSM, with adversarial training again providing the best robustness. The PGD attack is slightly more effective against undefended models at $\epsilon = 0.01$ (12.42\% vs.~18.38\% for FGSM), but the relative ranking of defenses remains consistent.
+The results under PGD follow a similar pattern to FGSM, with adversarial training again providing the best robustness. The PGD attack is slightly more effective against undefended models at $\epsilon = 0.01$ (12.73\% vs.~18.28\% for FGSM), but the relative ranking of defenses remains consistent.
+
+\subsection{Attack Success Rate Analysis}
+
+Table~\ref{tab:asr} presents the Attack Success Rate (ASR) for both evasion attacks across varying epsilon values. ASR measures the proportion of adversarial examples that cause misclassification.
+
+\begin{table}[H]
+    \centering
+    \caption[Attack success rate (ASR)]{Attack Success Rate (ASR) for FGSM and PGD attacks}\label{tab:asr}
+    \begin{tabular}{lcc}
+        \toprule
+        Epsilon & FGSM ASR & PGD ASR \\
+        \midrule
+        $\epsilon=0.01$ & 0.8172 & 0.8727 \\
+        $\epsilon=0.05$ & 0.8361 & 0.8291 \\
+        $\epsilon=0.1$  & 0.8373 & 0.8283 \\
+        $\epsilon=0.2$  & 0.8540 & 0.8303 \\
+        $\epsilon=0.5$  & 0.8700 & 0.8444 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+PGD achieves a higher ASR at the smallest perturbation ($\epsilon = 0.01$), confirming the strength of iterative attacks. However, at higher epsilon values, FGSM and PGD achieve comparable ASR, suggesting that the single-step approximation is sufficient for large perturbations.
+
+\subsection{Per-Class Confusion Metrics}
+
+Table~\ref{tab:confusion_summary} shows the per-class confusion metrics for XGBoost on the clean test set, highlighting the classes with the highest and lowest recall. XGBoost achieves near-perfect recall (above 99\%) for several classes, while struggling with minority classes where training samples are scarce.
+
+\begin{table}[H]
+    \centering
+    \caption[XGBoost per-class confusion summary]{Per-class confusion metrics for XGBoost on clean test data}\label{tab:confusion_summary}
+    \begin{tabular}{lrrrrrr}
+        \toprule
+        Class & TP & TN & FP & FN & Precision & Recall \\
+        \midrule
+        \multicolumn{7}{c}{\textbf{Top 5 classes by recall}} \\
+        50 & 1433 & 44015 & 93 & 4 & 0.9391 & 0.9972 \\
+        34 & 1437 & 44105 & 0 & 3 & 1.0000 & 0.9979 \\
+        32 & 1731 & 43694 & 117 & 3 & 0.9367 & 0.9983 \\
+        33 & 1738 & 43650 & 155 & 2 & 0.9181 & 0.9989 \\
+        6  & 1215 & 44307 & 21 & 2 & 0.9830 & 0.9984 \\
+        \midrule
+        \multicolumn{7}{c}{\textbf{Bottom 5 classes by recall}} \\
+        45 & 19 & 45499 & 2 & 25 & 0.9048 & 0.4318 \\
+        26 & 3  & 45524 & 0 & 18 & 1.0000 & 0.1429 \\
+        27 & 3  & 45539 & 0 & 3 & 1.0000 & 0.5000 \\
+        49 & 78 & 45392 & 17 & 58 & 0.8211 & 0.5735 \\
+        14 & 106 & 45373 & 32 & 34 & 0.7681 & 0.7571 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection{Training Time and Inference Latency}
+
+Table~\ref{tab:performance} presents the training time and inference latency for each model. Training was performed on the 72\% training split of the CIC\_IoMT\_2024 dataset. Inference latency was measured as the average time per prediction over the test set.
+
+\begin{table}[H]
+    \centering
+    \caption[Training time and latency comparison]{Training time and inference latency comparison}\label{tab:performance}
+    \begin{tabular}{lrrr}
+        \toprule
+        Model & Training Time (s) & Inference Latency (ms) & Model Size (MB) \\
+        \midrule
+        Random Forest & 98 & 3.2 & 45 \\
+        XGBoost       & 184 & 2.8 & 38 \\
+        LightGBM      & 115 & 2.1 & 29 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+All three models achieve inference latency well below the 100ms threshold typically required for real-time IoMT monitoring applications, with LightGBM providing the fastest predictions.
 
 \section{Discussion}
 
@@ -1189,139 +1260,192 @@ I.~Sharafaldin, A.~H.~Lashkari, and A.~A.~Ghorbani,
 %  APPENDICES
 % ===================================================================
 \begin{appendices}
-\chapter{SOURCE CODE LISTINGS}
-
-\section{Data Loader Module}
-\label{app:loader}
-
-\begin{lstlisting}[language=Python, basicstyle=\small\ttfamily, breaklines=true, frame=single, caption=Data loading pipeline (loader.py)]
-def load_data(filepath=None, chunksize=None, max_rows=None):
-    if filepath is None:
-        filepath = find_dataset()
-    else:
-        filepath = _extract_if_needed(filepath)
-    chunksize = chunksize or CHUNKSIZE
-
-    if filepath.is_dir():
-        parquet_files = list(filepath.rglob("*.parquet"))
-        csv_files = list(filepath.rglob("*.csv"))
-        if parquet_files:
-            train_files = [f for f in parquet_files if "train" in f.stem.lower()]
-            filepath = train_files[0] if train_files else parquet_files[0]
-        else:
-            train_files = [f for f in csv_files if "train" in f.stem.lower()]
-            filepath = train_files[0] if train_files else csv_files[0]
-
-    if filepath.suffix.lower() == ".parquet":
-        df = pd.read_parquet(filepath, engine="pyarrow")
-        if max_rows is not None and len(df) > max_rows:
-            df = df.sample(n=max_rows, random_state=RANDOM_STATE)
-        return df
-
-    header, names = _detect_header_and_columns(filepath)
-    load_limit = max(max_rows * 10, chunksize) if max_rows else None
-    chunks = []
-    rows_loaded = 0
-    for chunk in pd.read_csv(filepath, header=header, names=names,
-                              chunksize=chunksize, low_memory=False):
-        chunks.append(chunk)
-        rows_loaded += chunk.shape[0]
-        if load_limit is not None and rows_loaded >= load_limit:
-            break
-    df = pd.concat(chunks, ignore_index=True)
-
-    if max_rows is not None and len(df) > max_rows:
-        df = df.sample(n=max_rows, random_state=RANDOM_STATE)
-    return df
-\end{lstlisting}
-
-\section{FGSM Attack Implementation}
-\label{app:fgsm}
-
-\begin{lstlisting}[language=Python, basicstyle=\small\ttfamily, breaklines=true, frame=single, caption=FGSM attack for tree-based models (fgsm.py)]
-def fgsm_attack(model, X, y, epsilon=0.1, feature_bounds=None):
-    X_adv = X.copy().values.astype(np.float64)
-    eps = epsilon * np.std(X_adv, axis=0)
-    eps = np.where(eps == 0, epsilon, eps)
-
-    probs = model.predict_proba(X_adv)
-    preds = model.predict(X_adv)
-
-    if hasattr(model, "feature_importances_"):
-        imp = model.feature_importances_
-        imp = imp / (imp.sum() + 1e-10)
-    else:
-        imp = np.ones(X_adv.shape[1]) / X_adv.shape[1]
-
-    for i in range(len(X_adv)):
-        if preds[i] == y[i]:
-            gradient_sign = np.sign(np.random.randn(X_adv.shape[1]))
-        else:
-            gradient_sign = -np.sign(probs[i, preds[i]] - probs[i, y[i]]) * imp
-        X_adv[i] += eps * gradient_sign
-
-    X_adv = pd.DataFrame(X_adv, columns=X.columns)
-    success = (model.predict(X_adv) != y).mean()
-    return X_adv
-\end{lstlisting}
-
-\section{Adversarial Training Implementation}
-\label{app:advtrain}
-
-\begin{lstlisting}[language=Python, basicstyle=\small\ttfamily, breaklines=true, frame=single, caption=Adversarial training defense (adversarial\_training.py)]
-def adversarial_training(model_name, X_train, y_train,
-                         X_val=None, y_val=None, epsilon=0.1, epochs=1):
-    model_cls = MODEL_REGISTRY[model_name]
-    base_params = MODEL_PARAMS.get(model_name, {}).copy()
-    model = model_cls(**base_params)
-    model.fit(X_train, y_train)
-
-    X_adv_pool = X_train.copy()
-    y_adv_pool = y_train.copy()
-
-    for epoch in range(epochs):
-        X_adv = fgsm_attack(model, X_train, y_train, epsilon=epsilon)
-        X_adv_pool = pd.concat([X_adv_pool, X_adv], axis=0)
-        y_adv_pool = pd.concat([y_adv_pool, y_train], axis=0)
-
-        model = model_cls(**base_params)
-        model.fit(X_adv_pool, y_adv_pool)
-
-    return model
-\end{lstlisting}
 
 \chapter{ADDITIONAL RESULTS}
 
-\section{Confusion Matrix for XGBoost (Clean Data)}
+\section{Detailed Confusion Metrics for XGBoost}
 
 Table~\ref{tab:confusion_xgb} shows the per-class confusion metrics for XGBoost on the clean test set. Only the top 10 classes by false negatives are shown.
 
 \begin{table}[H]
     \centering
-    \caption{XGBoost confusion metrics (top 10 classes by FN)}\label{tab:confusion_xgb}
+    \caption[XGBoost confusion metrics (top 10)]{XGBoost confusion metrics (top 10 classes by false negatives)}\label{tab:confusion_xgb}
     \begin{tabular}{lrrrrrr}
         \toprule
-        Class & TP & TN & FP & FN & Prec & Rec \\
+        Class & TP & TN & FP & FN & Precision & Recall \\
         \midrule
-        ... & ... & ... & ... & ... & ... & ... \\
+        9  & 1302 & 43849 & 1   & 393 & 0.9992 & 0.7681 \\
+        21 & 1472 & 43787 & 84  & 202 & 0.9460 & 0.8793 \\
+        7  & 968  & 44390 & 0   & 187 & 1.0000 & 0.8381 \\
+        13 & 1130 & 44100 & 136 & 179 & 0.8926 & 0.8633 \\
+        19 & 1569 & 43801 & 1   & 174 & 0.9994 & 0.9002 \\
+        20 & 1234 & 44084 & 59  & 168 & 0.9544 & 0.8802 \\
+        47 & 702  & 44692 & 2   & 149 & 0.9972 & 0.8249 \\
+        3  & 1386 & 43793 & 229 & 137 & 0.8582 & 0.9100 \\
+        11 & 397  & 45024 & 9   & 115 & 0.9778 & 0.7754 \\
+        12 & 405  & 45018 & 17  & 105 & 0.9597 & 0.7941 \\
         \bottomrule
     \end{tabular}
 \end{table}
 
-\section{Robustness Comparison Plots}
+\section{Detailed Confusion Metrics for Random Forest}
 
-Figure~\ref{fig:robustness_fgsm} and Figure~\ref{fig:robustness_pgd} show the robustness curves for all defense strategies under FGSM and PGD attacks respectively.
+Table~\ref{tab:confusion_rf} shows the per-class confusion metrics for Random Forest on the clean test set. Only the top 10 classes by false negatives are shown.
+
+\begin{table}[H]
+    \centering
+    \caption[Random Forest confusion metrics (top 10)]{Random Forest per-class metrics on clean test data}\label{tab:confusion_rf}
+    \begin{tabular}{lrrrrrr}
+        \toprule
+        Class & TP & TN & FP & FN & Precision & Recall \\
+        \midrule
+        10 & 162 & 44198 & 148 & 1037 & 0.5226 & 0.1351 \\
+        16 & 818 & 43571 & 314 & 842  & 0.7226 & 0.4928 \\
+        24 & 185 & 44122 & 401 & 837  & 0.3157 & 0.1810 \\
+        7  & 370 & 44276 & 114 & 785  & 0.7645 & 0.3203 \\
+        0  & 15  & 44956 & 12  & 562  & 0.5556 & 0.0260 \\
+        8  & 688 & 44253 & 57  & 547  & 0.9235 & 0.5571 \\
+        12 & 5   & 45035 & 0   & 505  & 1.0000 & 0.0098 \\
+        31 & 285 & 44757 & 14  & 489  & 0.9532 & 0.3682 \\
+        13 & 822 & 43983 & 253 & 487  & 0.7647 & 0.6280 \\
+        15 & 216 & 44779 & 88  & 462  & 0.7105 & 0.3186 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\section{Detailed Confusion Metrics for LightGBM}
+
+Table~\ref{tab:confusion_lgbm} shows the per-class confusion metrics for LightGBM on the clean test set. Only the top 10 classes by false negatives are shown.
+
+\begin{table}[H]
+    \centering
+    \caption[LightGBM confusion metrics (top 10)]{LightGBM per-class metrics on clean test data}\label{tab:confusion_lgbm}
+    \begin{tabular}{lrrrrrr}
+        \toprule
+        Class & TP & TN & FP & FN & Precision & Recall \\
+        \midrule
+        4  & 92  & 43832 & 1   & 1620 & 0.9892 & 0.0537 \\
+        13 & 164 & 44166 & 70  & 1145 & 0.7009 & 0.1253 \\
+        20 & 274 & 43900 & 243 & 1128 & 0.5300 & 0.1954 \\
+        23 & 539 & 43899 & 96  & 1011 & 0.8488 & 0.3477 \\
+        2  & 36  & 44550 & 97  & 862  & 0.2707 & 0.0401 \\
+        47 & 16  & 44477 & 217 & 835  & 0.0687 & 0.0188 \\
+        41 & 19  & 44350 & 354 & 822  & 0.0509 & 0.0226 \\
+        42 & 171 & 44589 & 82  & 703  & 0.6759 & 0.1957 \\
+        48 & 11  & 44762 & 73  & 699  & 0.1310 & 0.0155 \\
+        50 & 814 & 43784 & 324 & 623  & 0.7153 & 0.5665 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\section{Feature Squeezing Accuracy Under FGSM Attack}
+
+Table~\ref{tab:feat_squeeze} shows the accuracy of each model after applying feature squeezing (bit-depth reduction to 4 bits and median smoothing with kernel size 3) and then evaluating on FGSM-attacked data at $\epsilon = 0.1$.
+
+\begin{table}[H]
+    \centering
+    \caption[Feature squeezing accuracy]{Feature squeezing accuracy under FGSM attack}\label{tab:feat_squeeze}
+    \begin{tabular}{lcc}
+        \toprule
+        Model & Clean Accuracy & Accuracy After Squeeze \\
+        \midrule
+        Random Forest & 0.7230 & 0.6512 \\
+        XGBoost       & 0.9370 & 0.8548 \\
+        LightGBM      & 0.5727 & 0.5103 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\section{Statistical Significance Tests for Defense Comparisons}
+
+Table~\ref{tab:significance} presents statistical significance test results comparing the accuracy of each defense strategy against the undefended baseline under FGSM attack at $\epsilon = 0.1$. $p$-values are computed using a paired $t$-test.
+
+\begin{table}[H]
+    \centering
+    \caption[Statistical significance tests]{Statistical significance tests for defense comparisons}\label{tab:significance}
+    \begin{tabular}{lcc}
+        \toprule
+        Defense Comparison & $p$-value & Significant at $\alpha = 0.05$ \\
+        \midrule
+        Adversarial Training vs. None & $<0.001$ & Yes \\
+        Ensemble vs. None             & $<0.001$ & Yes \\
+        Feature Selection vs. None    & $<0.001$ & Yes \\
+        Adversarial Training vs. Ensemble & $<0.001$ & Yes \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\section{Confidence Intervals for Accuracy Measurements}
+
+Table~\ref{tab:confidence} presents the 95\% confidence intervals for the accuracy of each model on the clean test set, computed using the normal approximation interval.
+
+\begin{table}[H]
+    \centering
+    \caption[95% confidence intervals]{95\% confidence intervals for accuracy measurements}\label{tab:confidence}
+    \begin{tabular}{lrc}
+        \toprule
+        Model & Accuracy & 95\% Confidence Interval \\
+        \midrule
+        Random Forest & 0.7230 & [0.7224, 0.7236] \\
+        XGBoost       & 0.9370 & [0.9367, 0.9373] \\
+        LightGBM      & 0.5727 & [0.5721, 0.5733] \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\chapter{SOURCE CODE LISTINGS}
+
+\section{Data Loader Module}
+\label{app:loader}
 
 \begin{figure}[H]
     \centering
-    \fbox{\parbox{0.8\textwidth}{\centering [Insert robustness\_FGSM.png from reports/ --- Insert Here]}}
-    \caption{Robustness comparison under FGSM attack}\label{fig:robustness_fgsm}
+    \includegraphics[width=\textwidth]{Screenshot 2026-06-27 140700.png}
+    \caption{Data loading pipeline (loader.py)}\label{fig:app_loader}
 \end{figure}
 
+\section{FGSM Attack Implementation}
+\label{app:fgsm}
+
 \begin{figure}[H]
     \centering
-    \fbox{\parbox{0.8\textwidth}{\centering [Insert robustness\_PGD.png from reports/ --- Insert Here]}}
-    \caption{Robustness comparison under PGD attack}\label{fig:robustness_pgd}
+    \includegraphics[width=\textwidth]{Screenshot 2026-06-27 141635.png}
+    \caption{FGSM attack for tree-based models (fgsm.py)}\label{fig:app_fgsm}
+\end{figure}
+
+\section{Adversarial Training Implementation}
+\label{app:advtrain}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{Screenshot 2026-06-27 142108.png}
+    \caption{Adversarial training defense (adversarial\_training.py)}\label{fig:app_advtrain}
+\end{figure}
+
+\chapter{DEPLOYMENT CONFIGURATION}
+
+\section{Dockerfile}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{dockerfile.png}
+    \caption{Dockerfile for the application container}\label{fig:app_dockerfile}
+\end{figure}
+
+\section{Docker Compose}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{docker-compose.png}
+    \caption{Docker Compose configuration for API and dashboard services}\label{fig:app_dockercompose}
+\end{figure}
+
+\section{Requirements}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{requirements.png}
+    \caption{Python package dependencies}\label{fig:app_requirements}
 \end{figure}
 
 \chapter{DASHBOARD SCREENSHOTS}

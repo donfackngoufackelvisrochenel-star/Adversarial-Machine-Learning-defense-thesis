@@ -1,0 +1,7 @@
+Total body children: 742
+SECTPR at P[52]: text="© Copyright by DONFACK NGOUFACK ELVIS ROCHENEL, 2026All rights reserved" fmt=none start=None titlePg=1
+  footerRef type=default id=rId42
+SECTPR at P[312]: text="" fmt=lowerRoman start=None titlePg=None
+  footerRef type=default id=rId6
+FINAL sectPr: fmt=decimal start=1
+  footerRef type=default id=rId7

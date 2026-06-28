@@ -1,0 +1,16 @@
+[686] style=3 C.1 Feature Squeezing Defense Results
+[687] style= Table D1 shows the accuracy of feature squeezing defenses under FGSM attack at ε = 0.1. Bit-depth re
+[688] style= Table D1: Feature squeezing accuracy under FGSM attack (ε=0.1)
+[690] style= Feature squeezing preserves clean accuracy well (99.85% for XGBoost) but offers limited robustness i
+[693] style= Figure 19: Feature squeezing defense accuracy comparison
+[695] style=2 APPENDIX D: DEPLOYMENT CONFIGURATION
+[696] style=3 D.1 Dockerfile
+[698] style=3 D.2 Docker Compose
+[700] style=3 D.3 Requirements
+[703] style=2 APPENDIX E: STATISTICAL ANALYSIS
+[704] style=3 E.1 Confidence Intervals for Accuracy Measurements
+[705] style= Table E1 presents the 95% confidence intervals for accuracy measurements based on 60,000 test sample
+[706] style= Table E1: 95% confidence intervals for accuracy measurements
+[708] style=3 E.2 Central Limit Theorem Justification
+[709] style= The Central Limit Theorem (CLT) states that the sampling distribution of the sample mean approaches 
+[710] style= Using Hoeffding’s inequality: P(|p_hat - p| ≥ ε) ≤ 2 exp(-2Nε²). For N = 60,000 and ε = 0.01, this b

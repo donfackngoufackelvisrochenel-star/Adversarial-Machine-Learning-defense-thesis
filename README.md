@@ -1,6 +1,6 @@
 # AML Defense — Evasion Attack Analysis on IoMT Data
 
-**Topic:** Implementation and Evaluation of Defense Strategies Against Evasion Attacks in Adversarial Machine Learning on IoMT Data
+**Topic:** Implementation Strategies for Defending Against Evasion Attacks in Adversarial Machine Learning on IoMT Data
 
 ## Project Structure
 

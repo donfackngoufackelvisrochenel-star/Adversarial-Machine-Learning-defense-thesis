@@ -1,0 +1,36 @@
+[ 24] 
+[ 25] 
+[ 26] 
+[ 27] 
+[ 28] sz=24 THE UNIVERSITY OF BAMENDATHE UNIVERSITY OF BAMENDA
+[ 29] 
+[ 30] sz=24 DEPARTMENTCOMPUTER ENGINEERINGDEPARTMENTCOMPUTER ENGINEERINGNATIONAL HIGHER POYTECHNIC INSTITUTENATI
+[ 31] 
+[ 32] sz=24 
+[ 33] 
+[ 34] 
+[ 35] 
+[ 36] sz=24 IMPLEMENTATION STRATEGIES FOR DEFENDING AGAINST EVASION ATTACK IN ADVERSARIAL MACHINE LEARNING IMPLE
+[ 37] 
+[ 38] 
+[ 39] 
+[ 40] sz=24 A Master thesis Submitted to the Department of Computer Engineering in the National Higher Polytechn
+[ 41] 
+[ 42] [B] sz=28 BY:DONFACK NGOUFACK ELVIS ROCHENELREGISTRATION NUMBER: UBa25EP194
+[ 43] 
+[ 44] sz=24 SUPERVISOR(S):
+[ 45] sz=24 Dr. Nsangou Mouchili                                      Dr. Ateh Kevin
+[ 46] sz=24 (PhD)                                                                    (PhD)
+[ 47] 
+[ 48] 
+[ 49] [B] sz=24 June, 2026
+[ 50] 
+[ 51] 
+[ 52] [B] sz=28 © Copyright by DONFACK NGOUFACK ELVIS ROCHENEL, 2026All rights reserved
+[ 53] 
+[ 54] [B] sz=32 DECLARATION OF ORIGINALITY OF STUDY
+[ 55] 
+[ 56] [B] sz=24 I, MALWARE DONFACK NGOUFACK ELVIS ROCHENEL, Registration Number: UBa25EP194, in the Department of Co
+[ 57] 
+[ 58] 
+[ 59] 

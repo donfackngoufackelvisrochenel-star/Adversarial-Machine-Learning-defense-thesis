@@ -1,0 +1,58 @@
+[ 28] THE UNIVERSITY OF BAMENDATHE UNIVERSITY OF BAMENDA
+[ 30] DEPARTMENTCOMPUTER ENGINEERINGDEPARTMENTCOMPUTER ENGINEERINGNATIONAL HIGHER POYT
+[ 36] IMPLEMENTATION STRATEGIES FOR DEFENDING AGAINST EVASION ATTACK IN ADVERSARIAL MA
+[ 40] A Master thesis Submitted to the Department of Computer Engineering in the Natio
+[ 42] BY:DONFACK NGOUFACK ELVIS ROCHENELREGISTRATION NUMBER: UBa25EP194
+[ 44] SUPERVISOR(S):
+[ 45] Dr. Nsangou Mouchili                                      Dr. Ateh Kevin [TAB]
+[ 46] (PhD)                                                                    (PhD)
+[ 49] June, 2026
+[ 52] © Copyright by DONFACK NGOUFACK ELVIS ROCHENEL, 2026All rights reserved
+[ 54] DECLARATION OF ORIGINALITY OF STUDY
+[ 56] I, MALWARE DONFACK NGOUFACK ELVIS ROCHENEL, Registration Number: UBa25EP194, in 
+[ 61] Date: _______________          Signature of author: _______________
+[ 63] ACCEPTANCE OF DISSERTATION
+[ 65] Having met the stipulated requirements, this dissertation entitled "Implementati
+[ 71] Chairperson, Master's Dissertation Committee:
+[ 72] ________________________________________
+[ 73] Prof.
+[ 75] Date: _______________
+[ 77] ABSTRACT
+[ 79] The rapid proliferation of Internet of Medical Things (IoMT) devices in healthca
+[ 80] Experimental results demonstrate that XGBoost achieved the highest clean accurac
+[ 81] These findings underscore the critical importance of selecting appropriate defen
+[ 82] Keywords: Adversarial Machine Learning, Evasion Attacks, IoMT Security, Defense 
+[ 84] RÉSUMÉ
+[ 86] La prolifération rapide des dispositifs Internet des Objets Médicaux (IoMT) dans
+[ 87] Les résultats expérimentaux démontrent que XGBoost a atteint la précision propre
+[ 88] Mots-clés: Apprentissage Automatique Adversarial, Attaques par Évasion, Sécurité
+[ 90] DEDICATION
+[ 92] To my family, for their unwavering support, patience, and encouragement througho
+[ 94] ACKNOWLEDGMENT
+[ 96] I wish to express my profound gratitude to my supervisor, Dr. XXXXXX XXXXXXXX, f
+[ 97] I am equally grateful to my co-supervisor, Engr. XXXXXX XXXXXXXX, for his techni
+[ 98] My sincere appreciation goes to the Head of Department of Computer Engineering, 
+[ 99] I also acknowledge the support of my classmates and friends, whose encouragement
+[100] Finally, and most importantly, I thank the Almighty God for His grace, strength,
+[102] TABLE OF CONTENTS
+[103] DECLARATION OF ORIGINALITY OF STUDYiii [TAB]
+[104] ACCEPTANCE OF DISSERTATIONiv [TAB]
+[105] ABSTRACTv [TAB]
+[106] RESUMEvi [TAB]
+[107] DEDICATIONvii [TAB]
+[108] ACKNOWLEDGMENTviii [TAB]
+[109] TABLE OF CONTENTSix [TAB]
+[110] LIST OF TABLESxii [TAB]
+[111] LIST OF FIGURESxiii [TAB]
+[112] LIST OF ABBREVIATIONSxiv [TAB]
+[114] CHAPTER 1: INTRODUCTION1 [TAB]
+[115] 1.1 Background and Statement of the Problem1 [TAB]
+[116] 1.2 Rationale4 [TAB]
+[117] 1.3 Research Questions5 [TAB]
+[118] 1.3.1 Main Research Question5 [TAB]
+[119] 1.3.2 Specific Research Questions6 [TAB]
+[120] 1.4 Objectives7 [TAB]
+[121] 1.4.1 Overall Objective7 [TAB]
+[122] 1.4.2 Specific Objectives7 [TAB]
+[123] 1.5 Scope and Delimitations8 [TAB]
+[124] 1.6 Structure of the Dissertation9 [TAB]

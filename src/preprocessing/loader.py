@@ -152,6 +152,9 @@ def find_dataset() -> Path:
     # Prefer Parquet — 10-15x smaller, much faster to load
     parquet_files = _find_parquet()
     if parquet_files:
+        train_files = [f for f in parquet_files if "train" in f.stem.lower()]
+        if train_files:
+            return train_files[0]
         return parquet_files[0]
 
     archives = _find_archives()

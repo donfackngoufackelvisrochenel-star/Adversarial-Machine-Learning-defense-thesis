@@ -1,0 +1,301 @@
+Total paragraphs: 728
+
+[123] 1.5 Scope and Delimitations8 [TAB] indent=576
+[124] 1.6 Structure of the Dissertation9 [TAB] indent=576
+[126] CHAPTER 2: LITERATURE REVIEW10 [TAB]
+[127] 2.1 Overview of Adversarial Machine Learning10 [TAB] indent=576
+[128] 2.2 Evasion Attacks13 [TAB] indent=576
+[129] 2.2.1 Fast Gradient Sign Method (FGSM)14 [TAB] indent=1152
+[130] 2.2.2 Projected Gradient Descent (PGD)15 [TAB] indent=1152
+[131] 2.2.3 Comparison of FGSM and PGD16 [TAB] indent=1152
+[132] 2.3 Defense Strategies17 [TAB] indent=576
+[133] 2.3.1 Adversarial Training17 [TAB] indent=1152
+[134] 2.3.2 Feature Selection Defense18 [TAB] indent=1152
+[135] 2.3.3 Ensemble Defense19 [TAB] indent=1152
+[136] 2.3.4 Feature Squeezing20 [TAB] indent=1152
+[137] 2.4 Evaluation Metrics in Adversarial ML21 [TAB] indent=576
+[138] 2.5 Related Work on Tabular Adversarial Defenses22 [TAB] indent=576
+[139] 2.6 Research Gap and Contribution24 [TAB] indent=576
+[141] CHAPTER 3: MATERIALS AND METHODS26 [TAB]
+[142] 3.1 Dataset Description and Preprocessing26 [TAB] indent=576
+[143] 3.1.1 CIC_IoMT_2024 Dataset26 [TAB] indent=1152
+[144] 3.1.2 Data Loading Pipeline28 [TAB] indent=1152
+[145] 3.1.3 Data Cleaning and Transformation29 [TAB] indent=1152
+[146] 3.1.4 Split Strategy30 [TAB] indent=1152
+[147] 3.1.5 Scaling and Encoding31 [TAB] indent=1152
+[148] 3.2 Model Training and Evaluation32 [TAB] indent=576
+[149] 3.2.1 Random Forest (RF)32 [TAB] indent=1152
+[150] 3.2.2 XGBoost33 [TAB] indent=1152
+[151] 3.2.3 LightGBM34 [TAB] indent=1152
+[152] 3.2.4 Training Procedure and Hyperparameters35 [TAB] indent=1152
+[153] 3.3 Evasion Attack Implementation36 [TAB] indent=576
+[154] 3.3.1 FGSM Adaptation for Tree-based Models36 [TAB] indent=1152
+[155] 3.3.2 PGD Adaptation for Tree-based Models38 [TAB] indent=1152
+[156] 3.3.3 Attack Evaluation Protocol39 [TAB] indent=1152
+[157] 3.4 Defense Implementation40 [TAB] indent=576
+[158] 3.4.1 Adversarial Training40 [TAB] indent=1152
+[159] 3.4.2 Feature Selection Defense42 [TAB] indent=1152
+[160] 3.4.3 Ensemble Defense43 [TAB] indent=1152
+[161] 3.4.4 Feature Squeezing44 [TAB] indent=1152
+[162] 3.5 System Implementation45 [TAB] indent=576
+[163] 3.5.1 Interactive Dashboard (Streamlit)45 [TAB] indent=1152
+[164] 3.5.2 REST API and WebSocket Server47 [TAB] indent=1152
+[165] 3.5.3 Real-Time Inference Engine48 [TAB] indent=1152
+[166] 3.5.4 Authentication and Security Architecture49 [TAB] indent=1152
+[167] 3.6 Experimental Framework50 [TAB] indent=576
+[168] 3.6.1 Hardware and Software Configuration50 [TAB] indent=1152
+[169] 3.6.2 Software Libraries51 [TAB] indent=1152
+[170] 3.6.3 Experimental Protocol52 [TAB] indent=1152
+[172] CHAPTER 4: RESULTS AND DISCUSSION54 [TAB]
+[173] 4.1 Experimental Results54 [TAB] indent=576
+[174] 4.1.1 Clean Performance of Base Classifiers54 [TAB] indent=1152
+[175] 4.1.2 Impact of FGSM Evasion Attacks57 [TAB] indent=1152
+[176] 4.1.3 Impact of PGD Evasion Attacks59 [TAB] indent=1152
+[177] 4.1.4 Defense Effectiveness under FGSM61 [TAB] indent=1152
+[178] 4.1.5 Defense Effectiveness under PGD64 [TAB] indent=1152
+[179] 4.2 Discussion66 [TAB] indent=576
+[180] 4.2.1 Model Selection for IoMT Security66 [TAB] indent=1152
+[181] 4.2.2 Vulnerability of Tree-based Models67 [TAB] indent=1152
+[182] 4.2.3 Defense Trade-offs and Practical Implications69 [TAB] indent=1152
+[183] 4.2.4 Regulatory and Compliance Implications71 [TAB] indent=1152
+[184] 4.3 Limitations of the Study72 [TAB] indent=576
+[186] CHAPTER 5: CONCLUSIONS AND RECOMMENDATIONS74 [TAB]
+[187] 5.1 Summary of Findings74 [TAB] indent=576
+[188] 5.2 Conclusions75 [TAB] indent=576
+[189] 5.2.1 Data Pipeline Implementation75 [TAB] indent=1152
+[190] 5.2.2 Model Performance on Clean Data75 [TAB] indent=1152
+[191] 5.2.3 Attack Vulnerability76 [TAB] indent=1152
+[192] 5.2.4 Defense Effectiveness76 [TAB] indent=1152
+[193] 5.2.5 General Conclusion77 [TAB] indent=1152
+[194] 5.3 Recommendations78 [TAB] indent=576
+[195] 5.3.1 For Practitioners and System Architects78 [TAB] indent=1152
+[196] 5.3.2 For Future Research79 [TAB] indent=1152
+[198] REFERENCES81 [TAB]
+[200] APPENDIX A: SOURCE CODE LISTINGS85 [TAB]
+[201] A.1 Data Loader Module (loader.py)85 [TAB] indent=576
+[202] A.2 FGSM Attack Implementation (fgsm.py)86 [TAB] indent=576
+[203] A.3 Adversarial Training (adversarial_training.py)86 [TAB] indent=576
+[204] A.4 Ensemble Defense (ensemble.py)87 [TAB] indent=576
+[205] A.5 Model Trainer (trainer.py)87 [TAB] indent=576
+[206] A.6 Evaluation Metrics (metrics.py)88 [TAB] indent=576
+[207] A.7 Feature Squeezing (feature_squeezing.py)88 [TAB] indent=576
+[208] A.8 SHAP Explainability Module (explainer.py)89 [TAB] indent=576
+[209] A.9 Streamlit Dashboard Key Sections (streamlit_app.py)89 [TAB] indent=576
+[210] A.10 PGD Attack Implementation (pgd.py)90 [TAB] indent=576
+[211] APPENDIX B: ADDITIONAL EXPERIMENTAL RESULTS92 [TAB]
+[212] B.1 Confusion Matrix for XGBoost (Clean Data)92 [TAB] indent=576
+[213] B.2 Attack Success Rate Comparison92 [TAB] indent=576
+[214] B.3 Per-Class Performance Analysis for Random Forest93 [TAB] indent=576
+[215] B.4 Per-Class Performance Analysis for LightGBM93 [TAB] indent=576
+[216] B.5 Training Time and Inference Latency94 [TAB] indent=576
+[217] B.6 Robustness Comparison Plots94 [TAB] indent=576
+[219] APPENDIX C: DASHBOARD SCREENSHOTS95 [TAB]
+[220] C.1 Feature Squeezing Defense Results96 [TAB] indent=576
+[222] APPENDIX D: DEPLOYMENT CONFIGURATION98 [TAB]
+[223] D.1 Dockerfile98 [TAB] indent=576
+[224] D.2 Docker Compose99 [TAB] indent=576
+[225] D.3 Requirements99 [TAB] indent=576
+[227] APPENDIX E: STATISTICAL ANALYSIS100 [TAB]
+[228] E.1 Confidence Intervals for Accuracy Measurements100 [TAB] indent=576
+[229] E.2 Central Limit Theorem Justification101 [TAB] indent=576
+[231] LIST OF TABLES [TAB]
+[232] Table 3.1: Model hyperparameters used in experiments35 [TAB] indent=576
+[233] Table 4.1: Clean performance of base classifiers on CIC_IoMT_2024 test set54 [TAB] indent=576
+[234] Table 4.2: Classifier accuracy under FGSM attack at varying epsilon values57 [TAB] indent=576
+[235] Table 4.3: Classifier accuracy under PGD attack at varying epsilon values60 [TAB] indent=576
+[236] Table 4.4: Accuracy of defense strategies under FGSM attack61 [TAB] indent=576
+[237] Table 4.5: Accuracy of defense strategies under PGD attack64 [TAB] indent=576
+[238] Table A1: XGBoost confusion metrics (top 10 classes by false negatives)92 [TAB] indent=576
+[239] Table B1: Statistical significance tests for defense comparisons93 [TAB] indent=576
+[240] Table B2: Random Forest per-class metrics on clean test data93 [TAB] indent=576
+[241] Table B3: LightGBM per-class metrics on clean test data94 [TAB] indent=576
+[242] Table B4: Training time and inference latency comparison94 [TAB] indent=576
+[243] Table D1: Feature squeezing accuracy under FGSM attack97 [TAB] indent=576
+[244] Table E1: 95% confidence intervals for accuracy measurements100 [TAB] indent=576
+[246] LIST OF FIGURES [TAB]
+[247] Figure 3.1: Correlation heatmap of features in the CIC_IoMT_2024 dataset27 [TAB] indent=576
+[248] Figure 3.2: Dashboard view showing trained model metrics46 [TAB] indent=576
+[249] Figure 3.3: Dashboard showing attack parameters and results47 [TAB] indent=576
+[250] Figure 3.4: Interactive dashboard showing the experimental workflow55 [TAB] indent=576
+[251] Figure 4.1: Comparison of clean performance metrics across models58 [TAB] indent=576
+[252] Figure 4.2: Robustness curves showing accuracy vs. epsilon for undefended models under FGSM attack62 [TAB] indent=576
+[253] Figure 4.3: Defense comparison under FGSM attack65 [TAB] indent=576
+[254] Figure 8: Robustness comparison under FGSM attack (all defenses)95 [TAB] indent=576
+[255] Figure 9: Robustness comparison under PGD attack (all defenses)95 [TAB] indent=576
+[256] Figure 10: Interactive dashboard ? main view showing dataset overview and pipeline audit95 [TAB] indent=576
+[257] Figure 11: Best algorithm banner showing Accuracy, Precision, Recall, and F1 scores96 [TAB] indent=576
+[258] Figure 12: Defense comparison view showing defended vs undefended metrics96 [TAB] indent=576
+[259] Figure 13: SHAP feature importance explanation plots for model interpretability97 [TAB] indent=576
+[260] Figure 16: Live inference demo interface with real-time streaming predictions97 [TAB] indent=576
+[261] Figure 19: Feature squeezing defense accuracy comparison98 [TAB] indent=576
+[262] LIST OF ABBREVIATIONS
+[264] AML  Adversarial Machine Learning
+[265] API  Application Programming Interface
+[266] ASR  Attack Success Rate
+[267] BIM  Basic Iterative Method
+[268] CIC  Canadian Institute for Cybersecurity
+[269] CLT  Central Limit Theorem
+[270] CNN  Convolutional Neural Network
+[271] CSV  Comma-Separated Values
+[272] CW  Carlini?Wagner Attack
+[273] DDoS  Distributed Denial of Service
+[274] EFB  Exclusive Feature Bundling
+[275] FGSM  Fast Gradient Sign Method
+[276] FN  False Negative
+[277] FP  False Positive
+[278] GAN  Generative Adversarial Network
+[279] GB  Gigabyte
+[280] GDPR  General Data Protection Regulation
+[281] GOSS  Gradient-based One-Side Sampling
+[282] HIPAA  Health Insurance Portability and Accountability Act
+[283] HITECH  Health Information Technology for Economic and Clinical Health Act
+[284] HTTP  Hypertext Transfer Protocol
+[285] HTTPS  HTTP Secure
+[286] IDS  Intrusion Detection System
+[287] IoMT  Internet of Medical Things
+[288] IP  Internet Protocol
+[289] JSON  JavaScript Object Notation
+[290] JSMA  Jacobian-based Saliency Map Attack
+[291] JWT  JSON Web Token
+[292] LGBM  Light Gradient Boosting Machine
+[293] LHS  Left-Hand Side
+[294] MB  Megabyte
+[295] MIM  Momentum Iterative Method
+[296] ML  Machine Learning
+[297] MLP  Multi-Layer Perceptron
+[298] NSL-KDD  Network Security Laboratory ? Knowledge Discovery and Data Mining
+[299] PGD  Projected Gradient Descent
+[300] RAM  Random Access Memory
+[301] REST  Representational State Transfer
+[302] RF  Random Forest
+[303] RHS  Right-Hand Side
+[304] ROC-AUC  Receiver Operating Characteristic ? Area Under the Curve
+[305] SHAP  SHapley Additive exPlanations
+[306] SSH  Secure Shell
+[307] TN  True Negative
+[308] TP  True Positive
+[309] URL  Uniform Resource Locator
+[310] WS  WebSocket
+[311] XGB  XGBoost / Extreme Gradient Boosting
+[313] CHAPTER 1: INTRODUCTION
+[314] 1.1 Background and Statement of the Problem
+[315] The rapid digitisation of healthcare systems has led to the widespread adoption of Internet of Medical Things (IoMT) dev
+[316] The global IoMT market was valued at approximately $142 billion in 2023 and is projected to reach $408 billion by 2030, 
+[317] The consequences of cyberattacks on healthcare systems extend beyond data theft to include direct patient harm. The 2021
+[318] Healthcare data is subject to stringent regulatory frameworks that impose legal obligations on the protection of patient
+[319] Machine learning models have become central to modern intrusion detection systems (IDS) because they can identify novel 
+[320] The academic study of adversarial machine learning began with the discovery that neural networks are susceptible to smal
+[321] The healthcare domain presents a particularly challenging environment for adversarial defense for several reasons. First
+[322] Despite their effectiveness, ML models are inherently vulnerable to adversarial attacks. An adversary can introduce care
+[323] The Fast Gradient Sign Method (FGSM), introduced by Goodfellow et al. (2015), is a single-step attack that perturbs each
+[324] The CIC_IoMT_2024 dataset, published by the Canadian Institute for Cybersecurity (CIC), comprises network traffic data f
+[325] The problem addressed by this research is the vulnerability of ML classifiers to evasion attacks in the IoMT domain. Wit
+[326] 1.2 Rationale
+[327] The rationale for this study stems from the critical need to secure IoMT systems against adversarial threats. Healthcare
+[328] Beyond the immediate security implications, there is a significant research gap in the adversarial ML literature. The va
+[329] An attacker who successfully evades an ML-based intrusion detection system could gain unauthorized access to sensitive p
+[330] Previous research has predominantly focused on adversarial attacks and defenses in the image domain, where pixel values 
+[331] Furthermore, the multi-class nature (51 classes) of IoMT traffic classification adds complexity that is not present in t
+[332] 1.3 Research Questions
+[333] 1.3.1 Main Research Question
+[334] How effective are adversarial training, feature selection, ensemble methods, and feature squeezing at mitigating evasion
+[335] 1.3.2 Specific Research Questions
+[336] To address the main research question, the following specific research questions were formulated:
+[337] RQ1: What is the baseline clean performance of Random Forest, XGBoost, and LightGBM classifiers on the CIC_IoMT_2024 dat
+[338] RQ2: How severely do FGSM and PGD attacks degrade the performance of each classifier across varying perturbation magnitu
+[339] RQ3: Which defense strategy provides the greatest improvement in robustness, measured as the accuracy maintained on adve
+[340] RQ4: How does the complexity and computational cost of each defense strategy compare to its robustness benefit?
+[341] 1.4 Objectives
+[342] 1.4.1 Overall Objective
+[343] The overall objective of this study was to implement and evaluate defense strategies against evasion attacks in adversar
+[344] 1.4.2 Specific Objectives
+[345] The specific objectives were:
+[346] To implement a data pipeline for loading, cleaning, and preprocessing the CIC_IoMT_2024 dataset;
+[347] To train and evaluate three base classifiers?Random Forest, XGBoost, and LightGBM?on the preprocessed dataset;
+[348] To implement FGSM and PGD evasion attacks adapted for tree-based models using feature importance approximations;
+[349] To implement four defense strategies: adversarial training, feature selection, ensemble methods, and feature squeezing;
+[350] To evaluate and compare the effectiveness of each defense strategy using quantitative metrics including accuracy, precis
+[351] To develop an interactive dashboard and REST API for real-time demonstration of attack and defense dynamics.
+[352] 1.5 Scope and Delimitations
+[353] This study focuses on white-box evasion attacks, where the adversary has full knowledge of the model architecture and pa
+[354] Four defense strategies are evaluated individually, not in combination: adversarial training, feature selection, ensembl
+[355] The study does not address other types of adversarial attacks such as data poisoning (where the adversary corrupts train
+[356] 1.6 Structure of the Dissertation
+[357] This dissertation is organised into five chapters. Chapter 1 provides the introduction, background, and research objecti
+[359] CHAPTER 2: LITERATURE REVIEW
+[360] 2.1 Overview of Adversarial Machine Learning
+[361] Adversarial machine learning is a subfield of artificial intelligence that studies the vulnerability of ML models to mal
+[362] Since Szegedy's initial discovery, the field has expanded dramatically. In 2013, Biggio et al. demonstrated that evasion
+[363] Adversarial attacks can be categorised along several dimensions. By attacker knowledge: white-box attacks assume full kn
+[364] The mathematical foundations of adversarial ML draw from optimisation theory, game theory, and statistical learning theo
+[365] A key insight from the adversarial ML literature is the existence of adversarial transferability: adversarial examples c
+[366] This study focuses on white-box evasion attacks, where the adversary has access to the model's parameters and can comput
+[367] 2.2 Evasion Attacks
+[368] Evasion attacks generate adversarial examples?inputs that are intentionally modified to cause misclassification while ap
+[369] max_? ?(f(x + ?), y)   subject to   ???_p ? ?
+[371] where x is the original input, y is the true label, f is the classifier, ? is the loss function, ? is the perturbation v
+[372] 2.2.1 Fast Gradient Sign Method (FGSM)
+[373] The Fast Gradient Sign Method, introduced by Goodfellow et al. (2015), is a single-step attack that linearises the loss 
+[374] x' = x + ? ? sign(? ?(f(x), y))
+[376] FGSM is computationally efficient, requiring only a single gradient computation, but may not find the optimal perturbati
+[377] 2.2.2 Projected Gradient Descent (PGD)
+[378] Projected Gradient Descent, proposed by Madry et al. (2018), extends FGSM by iteratively applying multiple small perturb
+[380] x't+1 = ?B_?(x)(x't + ? ? sign(? ?(f(x't), y)))
+[383] PGD is considered a "universal first-order adversary" because if a model is robust to PGD, it is likely robust to other 
+[384] 2.2.3 Comparison of FGSM and PGD
+[385] FGSM and PGD represent different points on the spectrum of attack complexity versus strength. FGSM is a single-step atta
+[386] Several other evasion attack methods have been proposed in the literature. The Jacobian-based Saliency Map Attack (JSMA;
+[387] The Momentum Iterative Method (MIM; Dong et al., 2018) incorporates momentum into the iterative perturbation process, st
+[388] For tree-based models, gradient-based attacks must be adapted because true gradients are not available due to the piecew
+[389] 2.3 Defense Strategies
+[390] 2.3.1 Adversarial Training
+[391] The unique challenges of securing IoMT environments have been addressed by several recent studies. Al-Saadi et al. (2023
+[392] Newaz et al. (2021) developed a testbed for evaluating network intrusion detection systems in healthcare IoT environment
+[393] Hossain et al. (2023) proposed a blockchain-based framework for secure IoMT data sharing but did not address threats to 
+[394] 2.3.1 Adversarial Training
+[395] Adversarial training is one of the most effective defenses against evasion attacks. The core idea is to augment the trai
+[396] min_{?} E_{x,y ? D} [max_{??? ? ?} ?(f(x + ? ; ?), y)]
+[398] This min-max optimisation problem was first proposed by Goodfellow et al. (2015) and later extended by Madry et al. (201
+[399] 2.3.2 Feature Selection Defense
+[400] Feature selection as a defense removes the features that are most vulnerable to adversarial perturbation. The rationale 
+[401] v(j) = (1/K) ? Acc(f, X) - Acc(f, X + ?(j,k))
+[403] where v(j) is the vulnerability score of feature j, K is the number of noise realisations, and ?(j,k) is Gaussian noise 
+[404] 2.3.3 Ensemble Defense
+[405] Ensemble methods combine predictions from multiple heterogeneous models to improve robustness. The intuition is that an 
+[407] ? = argmaxc (1/M) ?m=1M pm(c | x)
+[410] Tram?r et al. (2018) showed that ensemble defenses can be effective when the constituent models have diverse learning dy
+[411] 2.3.4 Feature Squeezing
+[412] Feature squeezing reduces the precision of input features so that an adversary cannot hide subtle perturbations. Two squ
+[413] An orthogonal approach to defense is adversarial example detection, where the system attempts to identify whether an inp
+[414] Among the four defenses studied, adversarial training is the only one that modifies the training process itself, making 
+[415] 2.4 Evaluation Metrics in Adversarial ML
+[416] Standard classification metrics include accuracy (proportion of correct predictions), precision (TP/(TP+FP)), recall (TP
+[417] The choice of evaluation metrics is particularly important in the adversarial ML context because standard metrics can be
+[418] The Attack Success Rate (ASR) measures the fraction of adversarial examples that cause misclassification:
+[420] ASR = (1/N) ? ?[f(x'i) ? yi]
+[423] Robustness curves plot accuracy as a function of epsilon, providing a comprehensive view of model behaviour across diffe
+[424] 2.5 Related Work on Tabular Adversarial Defenses
+[425] Most adversarial ML research has focused on computer vision, where CNNs are the dominant architecture and pixel values h
+[426] Research specifically addressing adversarial robustness for tabular data has grown in recent years. Arik and Pfister (20
+[427] In the cybersecurity domain, adversarial ML research has focused on three main application areas: malware detection, net
+[428] Papernot et al. (2016) demonstrated that decision trees and random forests are susceptible to adversarial examples and p
+[429] In the cybersecurity domain, Apruzzese et al. (2020) surveyed the use of ML for network intrusion detection and identifi
+[430] 2.6 Research Gap and Contribution
+[431] Despite the growing body of research on adversarial ML, several gaps remain. Most defense evaluation studies focus on bi
+[432] The adaptation of gradient-based attacks for tree-based models on tabular data remains underexplored compared to neural 
+[433] The contributions of this research include: (1) a complete open-source pipeline for adversarial ML research on tabular n
+[435] CHAPTER 3: MATERIALS AND METHODS
+[436] This chapter describes the materials, dataset, experimental setup, and all methods employed in this study. The methodolo
+[437] 3.1 Dataset Description and Preprocessing (Objective 1)
+[438] 3.1.1 CIC_IoMT_2024 Dataset
+[439] The CIC_IoMT_2024 dataset is a network traffic dataset published by the Canadian Institute for Cybersecurity (CIC). It c
+[440] Each sample is described by over 80 network flow features extracted from packet captures using the CICFlowMeter tool. Th
+[441] The 51 classes in the dataset correspond to different combinations of IoMT device type and traffic category. Device type
+[442] The dataset's class distribution is highly imbalanced, reflecting realistic healthcare network conditions where normal t
+[443] The CIC_IoMT_2024 dataset is part of a family of network security datasets published by CIC, which includes the well-kno
+[444] 3.1.2 Data Loading Pipeline
+[445] A custom data loading pipeline was implemented in src/preprocessing/loader.py with the following capabilities: automatic
+[446] The chunked reading approach is essential for handling the 7.16-million-row dataset on hardware with limited RAM. By rea
+[447] 3.1.3 Data Cleaning and Transformation
+[448] The cleaning procedure includes removal of duplicate rows, removal of columns where all values are missing, forward-fill
+[449] An important preprocessing step specific to the CIC_IoMT_2024 dataset is the handling of timestamp and identifier column
