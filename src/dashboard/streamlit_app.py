@@ -68,6 +68,13 @@ st.set_page_config(
 def check_login():
     if "authenticated" not in st.session_state:
         st.session_state.authenticated = False
+
+    # Restore auth from URL params (survives container restarts)
+    if not st.session_state.authenticated:
+        token = st.query_params.get("auth")
+        if token == _auth_token():
+            st.session_state.authenticated = True
+
     if st.session_state.authenticated:
         return True
 
@@ -96,10 +103,16 @@ def check_login():
             if submitted:
                 if login_user == _AUTH_USERNAME and login_pass == _AUTH_PASSWORD:
                     st.session_state.authenticated = True
+                    st.query_params["auth"] = _auth_token()
                     st.rerun()
                 else:
                     st.error("Invalid username or password")
     st.stop()
+
+
+def _auth_token():
+    import hashlib as _hl
+    return _hl.md5(f"{_AUTH_USERNAME}:{_AUTH_PASSWORD}".encode()).hexdigest()
 
 
 check_login()
