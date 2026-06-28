@@ -220,7 +220,11 @@ def load_data(filepath: Path = None, chunksize: int = None, max_rows: int = None
         import pyarrow.parquet as pq
         pf = pq.ParquetFile(filepath)
         total_rows = pf.metadata.num_rows
-        print(f"[loader]  Parquet rows={total_rows:,}  row_groups={pf.metadata.num_row_groups}")
+        # Log file identity for cross-environment debugging
+        import hashlib as _hl
+        _buf = open(filepath, "rb").read(1 << 20)  # first 1 MB
+        _h = _hl.md5(_buf).hexdigest()
+        print(f"[loader]  Parquet rows={total_rows:,}  row_groups={pf.metadata.num_row_groups}  md5(1MB)={_h}")
         # Read a limited pool (10x max_rows) instead of the full file to save
         # memory on constrained hosts (Railway has only 512 MB RAM).
         if max_rows is not None and total_rows > max_rows:
