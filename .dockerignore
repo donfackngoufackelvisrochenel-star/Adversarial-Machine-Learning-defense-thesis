@@ -8,8 +8,8 @@ data/raw/CIC_IoMT_2024.zip
 data/processed/
 
 # Models (pickle files, generated at runtime)
-models/
-*.pkl
+/models/
+/src/models/*.pkl
 
 # Reports & logs (generated at runtime)
 reports/
