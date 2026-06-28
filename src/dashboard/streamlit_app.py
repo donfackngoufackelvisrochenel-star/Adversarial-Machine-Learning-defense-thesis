@@ -250,7 +250,13 @@ with st.sidebar:
         st.warning("No datasets found in `data/raw/`.", icon="⚠️")
         st.stop()
 
-    selected_file = st.selectbox("Dataset file", dataset_files)
+    # Default to the first training file if present
+    default_idx = 0
+    for i, f in enumerate(dataset_files):
+        if "train" in f.lower():
+            default_idx = i
+            break
+    selected_file = st.selectbox("Dataset file", dataset_files, index=default_idx)
 
     col1, col2 = st.columns(2)
     with col1:
