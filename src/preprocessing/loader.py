@@ -230,7 +230,8 @@ def load_data(filepath: Path = None, chunksize: int = None, max_rows: int = None
         if max_rows is not None and total_rows > max_rows:
             n_row_groups = pf.metadata.num_row_groups
             rows_per_group = max(1, total_rows // n_row_groups)
-            target_pool = min(total_rows, max_rows * 10)
+            # Keep 2× max_rows as pool (fits Railway's 512 MB RAM).
+            target_pool = min(total_rows, max_rows * 2)
             groups_needed = max(1, target_pool // rows_per_group)
             if groups_needed < n_row_groups:
                 import random as _random
