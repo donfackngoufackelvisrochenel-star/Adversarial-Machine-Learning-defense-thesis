@@ -929,6 +929,11 @@ else:
     with cc4:
         live_delay = st.number_input("Delay (s)", 0.0, 2.0, 0.05, 0.01,
                                      key="live_delay_input")
+    with cc5:
+        live_alpha = st.number_input("Alpha (PGD)", 0.001, 0.1,
+                                      value=alpha, step=0.005, key="live_alpha_input")
+        live_iter = st.number_input("Iter (PGD)", 1, 50,
+                                     value=num_iter, step=1, key="live_iter_input")
 
     # Update session state from widgets
     st.session_state.live_attack = live_attack_type != "None"
@@ -961,7 +966,8 @@ else:
             df = pd.DataFrame([sample])
             if live_attack_type == "PGD":
                 from src.attacks.pgd import pgd_attack
-                df_adv = pgd_attack(model, df, pd.Series([true_label]), epsilon=live_eps)
+                df_adv = pgd_attack(model, df, pd.Series([true_label]),
+                                    epsilon=live_eps, alpha=live_alpha, num_iter=int(live_iter))
             else:
                 df_adv = fgsm_attack(model, df, pd.Series([true_label]), epsilon=live_eps)
             sample = df_adv.iloc[0]

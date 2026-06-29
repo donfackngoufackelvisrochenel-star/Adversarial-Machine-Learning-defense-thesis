@@ -29,11 +29,14 @@ import datetime
 import getpass
 import os
 import json
+import time as _time
 from pathlib import Path
 
 # Suppress the harmless sklearn "X does not have valid feature names" warning
 # that occurs when models are fitted on DataFrames and evaluated on arrays.
 warnings.filterwarnings("ignore", message="X does not have valid feature names")
+# Suppress sklearn 1.6+ internal parallel API warnings (cosmetic only)
+warnings.filterwarnings("ignore", message="`sklearn.utils.parallel.delayed` should be used")
 
 # Ensure the project root is on sys.path so we can import src.* modules
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
@@ -51,8 +54,21 @@ from src.evaluation.metrics import compute_metrics, attack_success_rate, summari
 from src.evaluation.comparison import compare_attack_defense, plot_robustness_comparison, generate_report_table
 from src.explainability.explainer import explain_model
 from src.utils.helpers import setup_logger, save_results
-from configs.config import MODELS_DIR
+from configs.config import MODELS_DIR, MAX_ROWS as CONFIG_MAX_ROWS
 
+
+# ---------------------------------------------------------------------------
+# Timing helper
+# ---------------------------------------------------------------------------
+
+def _step_timer(label: str):
+    print(f"\n  >>> {label} ...")
+    return _time.time()
+
+def _step_done(label: str, start: float):
+    elapsed = _time.time() - start
+    print(f"  <<< {label} done  [{elapsed:.1f}s]")
+    return elapsed
 
 # ---------------------------------------------------------------------------
 # Main pipeline
@@ -66,7 +82,7 @@ def main():
     parser.add_argument("--skip-defense", action="store_true", help="Skip defense application")
     parser.add_argument("--skip-explain", action="store_true", help="Skip SHAP explanation")
     parser.add_argument("--chunksize", type=int, default=None, help="Rows per chunk for memory-efficient loading")
-    parser.add_argument("--max-rows", type=int, default=None, help="Maximum rows to load from dataset")
+    parser.add_argument("--max-rows", type=int, default=CONFIG_MAX_ROWS, help="Maximum rows to load from dataset (0 = all)")
     args = parser.parse_args()
 
     logger = setup_logger("pipeline")
@@ -80,37 +96,37 @@ def main():
     print("=" * 60)
     print(f"  Started : {run_start.strftime('%Y-%m-%d %H:%M:%S')}")
     print(f"  User    : {run_user} @ {run_host}")
-    print(f"  Max rows: {args.max_rows if args.max_rows else 'unlimited'}")
+    actual_max_rows = args.max_rows if args.max_rows != 0 else None
+    print(f"  Max rows: {actual_max_rows if actual_max_rows else 'ALL'}")
     print(f"  Chunks  : {args.chunksize if args.chunksize else 'default'}")
     print("=" * 60)
 
     # =====================================================================
     # Step 1: Load & Process Data
     # =====================================================================
-    print("\n[Step 1/7] Loading data...")
-    df = load_data(chunksize=args.chunksize, max_rows=args.max_rows)
+    t1 = _step_timer("Step 1/7  Load & Process Data")
+    df = load_data(chunksize=args.chunksize, max_rows=actual_max_rows)
     df = clean_data(df)
     X_train, X_val, X_test, y_train, y_val, y_test = split_data(df)
 
-    # Fit the processor (scaler + label encoder) on training data,
-    # then transform all splits consistently
     processor = DataProcessor()
     X_train, y_train = processor.fit_transform(X_train, y_train)
     X_val, y_val = processor.transform(X_val, y_val)
     X_test, y_test = processor.transform(X_test, y_test)
     processor.save(MODELS_DIR / "processor.pkl")
-    print("[pipeline] Data processed and split.")
+    _step_done("Step 1/7", t1)
 
     # =====================================================================
     # Step 2: Train Models
     # =====================================================================
-    print("\n[Step 2/7] Training models...")
+    t2 = _step_timer("Step 2/7  Train Models")
     clean_models = train_all_models(X_train, y_train, X_val, y_val)
+    _step_done("Step 2/7", t2)
 
     # =====================================================================
     # Step 3: Evaluate Clean (undefended) Performance
     # =====================================================================
-    print("\n[Step 3/7] Evaluating clean models...")
+    t3 = _step_timer("Step 3/7  Evaluate Clean Models")
     clean_results = {}
     for name, model in clean_models.items():
         preds = model.predict(X_test)
@@ -119,23 +135,25 @@ def main():
         clean_results[name] = metrics
         print(f"  {name}: acc={metrics[f'{name}_accuracy']:.4f}, f1={metrics[f'{name}_f1_score']:.4f}")
     save_results(clean_results, "clean_metrics")
+    _step_done("Step 3/7", t3)
 
     # =====================================================================
     # Step 4: Evasion Attacks (FGSM + PGD)
     # =====================================================================
     defended_models = {}
     if not args.skip_attack:
-        print("\n[Step 4/7] Running evasion attacks...")
+        t4 = _step_timer("Step 4/7  Evasion Attacks")
         for eps in [0.05, 0.1, 0.2]:
             for name, model in clean_models.items():
                 fgsm_attack(model, X_test, y_test, epsilon=eps)
                 pgd_attack(model, X_test, y_test, epsilon=eps)
+        _step_done("Step 4/7", t4)
 
     # =====================================================================
     # Step 5: Defenses
     # =====================================================================
     if not args.skip_defense:
-        print("\n[Step 5/7] Applying defenses...")
+        t5 = _step_timer("Step 5/7  Defenses")
 
         # 5a. Adversarial Training (only on RF for speed)
         print("\n  --- Adversarial Training ---")
@@ -154,18 +172,17 @@ def main():
         defended_models["ensemble"] = ensemble
 
         # 5d. Feature Squeezing (bit-depth reduction)
-        # Note: feature squeezing is applied at inference time, not training
-        # time, so we don't add it to defended_models for comparison
-        # (the comparison step would need to squeeze X_test first).
         print("\n  --- Feature Squeezing ---")
         for name, model in clean_models.items():
             X_sqz, acc = feature_squeezing_defense(model, X_test, y_test)
             print(f"  {name} after squeeze: acc={acc:.4f}")
 
+        _step_done("Step 5/7", t5)
+
     # =====================================================================
     # Step 6: Robustness Comparison & Reports
     # =====================================================================
-    print("\n[Step 6/7] Generating reports...")
+    t6 = _step_timer("Step 6/7  Robustness Comparison")
     if defended_models:
         for attack_name, attack_fn in [("FGSM", fgsm_attack), ("PGD", pgd_attack)]:
             comp_df = compare_attack_defense(
@@ -174,14 +191,16 @@ def main():
             if comp_df is not None and not comp_df.empty:
                 plot_robustness_comparison(comp_df, attack_name)
                 generate_report_table(comp_df, attack_name)
+    _step_done("Step 6/7", t6)
 
     # =====================================================================
     # Step 7: Explainability (SHAP)
     # =====================================================================
     if not args.skip_explain:
-        print("\n[Step 7/7] Generating SHAP explanations...")
+        t7 = _step_timer("Step 7/7  SHAP Explanations")
         for name, model in clean_models.items():
             explain_model(model, X_test.head(100), name)
+        _step_done("Step 7/7", t7)
 
     # =====================================================================
     # Summary — Best Algorithm (like dashboard)

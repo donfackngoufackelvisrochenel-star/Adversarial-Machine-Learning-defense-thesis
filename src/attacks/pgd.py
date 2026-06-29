@@ -52,58 +52,68 @@ def pgd_attack(
     Returns:
         DataFrame of adversarial examples.
     """
-    # Work with float64 NumPy arrays for performance
-    X_orig = X.values.astype(np.float64)
+    # Work with DataFrame throughout to preserve feature names
     y_arr = y.reset_index(drop=True).values if isinstance(y, pd.Series) else np.asarray(y)
+    cols = X.columns
 
-    # Per-feature epsilon and step size (fraction of std-dev)
-    eps = epsilon * np.std(X_orig, axis=0)
-    eps = np.where(eps == 0, epsilon, eps)
-    step = alpha * np.std(X_orig, axis=0)
-    step = np.where(step == 0, alpha, step)
+    # Per-feature epsilon and step size (fraction of std-dev) as Series
+    std_vals = X.std(axis=0).values
+    eps = np.where(std_vals == 0, epsilon, epsilon * std_vals)
+    step = np.where(std_vals == 0, alpha, alpha * std_vals)
 
-    # Random initialisation inside the epsilon-ball
+    # Initialise adversarial examples as DataFrame
+    X_adv = X.copy().astype(np.float64).values
+    X_orig = X_adv.copy()
+
     if random_start:
-        X_adv = X_orig + np.random.uniform(-eps, eps, size=X_orig.shape)
+        noise = np.random.uniform(-eps, eps, size=X_adv.shape)
+        X_adv = X_orig + noise
+
+    # Precompute importance weights
+    if hasattr(model, "feature_importances_"):
+        imp = model.feature_importances_
+        imp = imp / (imp.sum() + 1e-10)
     else:
-        X_adv = X_orig.copy()
+        imp = np.ones(X_adv.shape[1]) / X_adv.shape[1]
+
+    n = X_adv.shape[0]
 
     # Iterative perturbation
     for iteration in range(num_iter):
-        preds = np.asarray(model.predict(X_adv))
+        # Convert numpy arrays back to DataFrame for sklearn predict
+        X_adv_df = pd.DataFrame(X_adv, columns=cols, index=X.index)
+        preds = model.predict(X_adv_df)
+        probs = model.predict_proba(X_adv_df)
 
-        # Approximate gradient using feature importances
-        if hasattr(model, "feature_importances_"):
-            imp = model.feature_importances_
-            imp = imp / (imp.sum() + 1e-10)
-        else:
-            imp = np.ones(X_adv.shape[1]) / X_adv.shape[1]
+        # Vectorized gradient computation
+        probs_masked = probs.copy()
+        probs_masked[np.arange(n), y_arr] = 0
+        second_best = np.argmax(probs_masked, axis=1)
+        gap = probs[np.arange(n), second_best] - probs[np.arange(n), y_arr]
+        gradient_sign = np.sign(gap)[:, np.newaxis] * imp[np.newaxis, :]
 
-        for i in range(len(X_adv)):
-            # Skip samples that are already misclassified
-            if preds[i] != y_arr[i]:
-                continue
+        # Zero perturbation for already-misclassified samples (already skipped)
+        mis_mask = preds != y_arr
+        gradient_sign[mis_mask] = 0
 
-            # Random perturbation direction weighted by feature importance
-            gradient_sign = np.sign(np.random.randn(X_adv.shape[1]))
-            perturbation = step * gradient_sign * imp
-            X_adv[i] += perturbation
+        # Vectorized step
+        X_adv = X_adv + step[np.newaxis, :] * gradient_sign
 
         # Project the total perturbation back into the epsilon-ball
         delta = X_adv - X_orig
-        delta = np.clip(delta, -eps, eps)
-        X_adv = X_orig + delta
-
-        # Clip to user-specified feature bounds
-        if feature_bounds:
-            for col_name, (lo, hi) in feature_bounds.items():
-                col_idx = X.columns.get_loc(col_name)
-                X_adv[:, col_idx] = np.clip(X_adv[:, col_idx], lo, hi)
+        delta_clipped = np.clip(delta, -eps, eps)
+        X_adv = X_orig + delta_clipped
 
     # Convert back to DataFrame
-    X_adv = pd.DataFrame(X_adv, columns=X.columns)
+    X_adv = pd.DataFrame(X_adv, columns=cols, index=X.index)
+
+    # Clip to user-specified feature bounds
+    if feature_bounds:
+        for col_name, (lo, hi) in feature_bounds.items():
+            if col_name in X_adv.columns:
+                X_adv[col_name] = X_adv[col_name].clip(lo, hi)
 
     # Report attack success rate
-    success = (np.asarray(model.predict(X_adv)) != y_arr).mean()
+    success = (model.predict(X_adv) != y_arr).mean()
     print(f"[pgd] epsilon={epsilon}, alpha={alpha}, iter={num_iter} | Attack success rate: {success:.4f}")
     return X_adv

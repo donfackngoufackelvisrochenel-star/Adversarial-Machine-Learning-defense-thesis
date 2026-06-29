@@ -250,7 +250,6 @@ def live_next(model_name: str, attack: bool = False, epsilon: float = 0.1,
         epsilon     : attack strength (default 0.1)
         attack_type : "fgsm" (default) or "pgd"
     """
-    global _live_idx
     if not hasattr(live_next, "_idx"):
         live_next._idx = 0
 

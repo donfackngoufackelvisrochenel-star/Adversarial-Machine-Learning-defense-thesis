@@ -89,12 +89,20 @@ def feature_selection_defense(
     top_k = top_k or params["top_k"]
 
     print("[feature_selection] Ranking feature vulnerability...")
-    # Use a cheap Random Forest as the probe model
-    probe = RandomForestClassifier(n_estimators=10, random_state=RANDOM_STATE, n_jobs=-1)
+    # Use a cheap Random Forest as the probe model (capped depth for speed)
+    probe = RandomForestClassifier(n_estimators=10, max_depth=8, random_state=RANDOM_STATE, n_jobs=-1)
     probe.fit(X_train, y_train)
 
-    # Rank features by vulnerability
-    vuln = _rank_feature_vulnerability(probe, X_train, y_train)
+    # Rank features on a 10% subsample (30k rows at 300k) — ranking is stable
+    # with fewer rows since we only need relative ordering
+    sample_size = min(30000, len(X_train))
+    if sample_size < len(X_train):
+        X_sample = X_train.sample(n=sample_size, random_state=RANDOM_STATE)
+        y_sample = y_train.sample(n=sample_size, random_state=RANDOM_STATE)
+    else:
+        X_sample = X_train
+        y_sample = y_train
+    vuln = _rank_feature_vulnerability(probe, X_sample, y_sample)
 
     # Keep the *least* vulnerable features (tail of the sorted list)
     keep_features = vuln.tail(top_k)["feature"].tolist()

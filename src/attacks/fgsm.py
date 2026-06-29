@@ -45,12 +45,12 @@ def fgsm_attack(
     Returns:
         DataFrame of adversarial examples with the same shape as X.
     """
-    # Convert to float64 NumPy array for safe in-place perturbation
-    X_adv = X.copy().values.astype(np.float64)
-    y = y.reset_index(drop=True) if isinstance(y, pd.Series) else y
+    # Use DataFrame throughout to preserve feature names (required by sklearn)
+    X_adv = X.copy().astype(np.float64)
+    y_arr = y.values if isinstance(y, pd.Series) else np.asarray(y)
 
     # Compute per-feature epsilon = fraction of the feature's standard deviation
-    eps = epsilon * np.std(X_adv, axis=0)
+    eps = epsilon * X_adv.std(axis=0).values
     # Avoid division by zero for constant features
     eps = np.where(eps == 0, epsilon, eps)
 
@@ -62,30 +62,28 @@ def fgsm_attack(
     # Tree models do not have smooth gradients, so we approximate.
     if hasattr(model, "feature_importances_"):
         imp = model.feature_importances_
-        # Normalise so that importance weights sum to 1
         imp = imp / (imp.sum() + 1e-10)
     else:
-        # Equal weighting if no importances available
         imp = np.ones(X_adv.shape[1]) / X_adv.shape[1]
 
-    # Perturb each sample individually
-    for i in range(len(X_adv)):
-        pred_class = preds[i]
-        true_class = y[i]
+    # Vectorized gradient computation — no Python row loop
+    n = len(X_adv)
+    # Zero out the true-class probability to find the second-best class
+    probs_masked = probs.copy()
+    probs_masked[np.arange(n), y_arr] = 0
+    second_best = np.argmax(probs_masked, axis=1)
+    # Gap between second-best and true class probability
+    gap = probs[np.arange(n), second_best] - probs[np.arange(n), y_arr]
+    gradient_sign = np.sign(gap)[:, np.newaxis] * imp[np.newaxis, :]
 
-        # If the model already misclassifies this sample, random perturbation
-        if pred_class == true_class:
-            gradient_sign = np.sign(np.random.randn(X_adv.shape[1]))
-        else:
-            # Push the sample further in the wrong direction
-            gradient_sign = -np.sign(probs[i, pred_class] - probs[i, true_class]) * imp
+    # Random direction for already-misclassified samples
+    mis_mask = preds != y_arr
+    n_mis = mis_mask.sum()
+    if n_mis > 0:
+        gradient_sign[mis_mask] = np.sign(np.random.randn(n_mis, X_adv.shape[1])) * imp[np.newaxis, :]
 
-        # Apply perturbation
-        perturbation = eps * gradient_sign
-        X_adv[i] += perturbation
-
-    # Convert back to DataFrame with original column names
-    X_adv = pd.DataFrame(X_adv, columns=X.columns)
+    # Apply perturbation in one vectorized operation
+    X_adv = X_adv + eps[np.newaxis, :] * gradient_sign
 
     # Clip perturbed values to the specified bounds if provided
     if feature_bounds:
